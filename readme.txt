@@ -1,7 +1,7 @@
 === Nginx Champuru ===
 Contributors: miyauchi
 Donate link: http://firegoby.theta.ne.jp/
-Tags: widget 
+Tags: nginx, reverse proxy, cache 
 Requires at least: 3.2
 Tested up to: 3.2
 Stable tag: 0.1.0
@@ -12,11 +12,13 @@ Fix some cache problems on proxy server.
 
 Fix some cache problems on proxy server.
 
+* jQuery required.
+
 [This plugin maintained on GitHub.](https://github.com/miya0001/nginx-champuru)
 
 = Some features: =
 
-* Comments display author and email and url by ajax.
+* Display author, email and url by ajax on comment form.
 * json data for ajax send no-cache header.
 * send no-cache header on password protected posts.
 
