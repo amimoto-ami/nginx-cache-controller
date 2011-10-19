@@ -1,7 +1,1 @@
-(function($){
-    $.getJSON("/nginx-champuru.json", function(json){
-        $('#author').val(json.comment_author);
-        $('#email').val(json.comment_author_email);
-        $('#url').val(json.comment_author_url);
-    });
-})(jQuery);
+(function(a){a.getJSON("/nginx-champuru.json",function(b){a("#author").val(b.comment_author);a("#email").val(b.comment_author_email);a("#url").val(b.comment_author_url)})})(jQuery);
