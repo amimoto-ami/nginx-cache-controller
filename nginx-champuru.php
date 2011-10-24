@@ -4,7 +4,7 @@ Plugin Name: Nginx Champuru
 Author: Takayuki Miyauchi
 Plugin URI: http://firegoby.theta.ne.jp/wp/nginx-champuru
 Description: Plugin for Nginx Reverse Proxy 
-Version: 0.2.0
+Version: 0.3.0
 Author URI: http://firegoby.theta.ne.jp/
 Domain Path: /languages
 Text Domain: nginx-champuru
