@@ -69,13 +69,15 @@ public function wp()
 
 public function wp_enqueue_scripts()
 {
-    wp_enqueue_script(
-        'nginx-champuru',
-        plugins_url('/nginx-champuru.js', __FILE__),
-        array('jquery'),
-        $this->js_version,
-        true
-    );
+    if ((is_singular() && comments_open()) || $this->is_future_post()) {
+        wp_enqueue_script(
+            'nginx-champuru',
+            plugins_url('/nginx-champuru.js', __FILE__),
+            array('jquery'),
+            $this->js_version,
+            true
+        );
+    }
 }
 
 public function get_commenter_json()
@@ -97,6 +99,20 @@ public function wp_get_current_commenter($commenter)
             'comment_author_url'   => '',
         );
     }
+}
+
+private function is_future_post()
+{
+    $cron = get_option("cron");
+    foreach ($cron as $key => $jobs) {
+        if (is_array($jobs)) {
+            $res = array_key_exists("publish_future_post", $jobs);
+            if ($res) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 }
