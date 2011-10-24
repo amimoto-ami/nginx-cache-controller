@@ -62,7 +62,7 @@ public function flush_caches()
 public function wp()
 {
     global $post;
-    if (post_password_required($post->ID)) {
+    if (is_singular() && post_password_required($post->ID)) {
         nocache_headers();
     }
 }
