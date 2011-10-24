@@ -41,6 +41,7 @@ function __construct()
     add_action("publish_future_post ", array(&$this, "flush_caches"));
     add_action("save_post", array(&$this, "flush_caches"));
     add_action("comment_post", array(&$this, "flush_caches"));
+    add_action("wp_set_comment_status", array(&$this, "flush_caches"));
 }
 
 public function flush_caches()
