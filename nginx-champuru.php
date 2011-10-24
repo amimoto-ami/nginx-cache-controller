@@ -19,6 +19,7 @@ class NginxChampuru {
 
 private $js_version = "0.2.0";
 private $query = "nginxchampuru";
+private $cache_dir = '/var/cache/nginx';
 
 function __construct()
 {
@@ -37,6 +38,24 @@ function __construct()
         array(&$this, "wp_get_current_commenter"),
         9999
     );
+    add_action("publish_future_post ", array(&$this, "flush_caches"));
+    add_action("save_post", array(&$this, "flush_caches"));
+    add_action("comment_post", array(&$this, "flush_caches"));
+}
+
+public function flush_caches()
+{
+    if (defined("NGINX_DELETE_CACHES") && NGINX_DELETE_CACHES) {
+        if (defined("NGINX_CACHE_DIR") && NGINX_CACHE_DIR) {
+            $this->cache_dir = NGINX_CACHE_DIR;
+        }
+        $cmd = sprintf(
+            'grep -lr %s %s | xargs rm -f >/dev/null &',
+            escapeshellarg(home_url()),
+            escapeshellarg($this->cache_dir)
+        );
+        exec($cmd);
+    }
 }
 
 public function wp()
@@ -49,9 +68,6 @@ public function wp()
 
 public function wp_enqueue_scripts()
 {
-    if (!comments_open()) {
-        return;
-    }
     wp_enqueue_script(
         'nginx-champuru',
         plugins_url('/nginx-champuru.js', __FILE__),
