@@ -51,7 +51,7 @@ public function flush_caches()
             $this->cache_dir = NGINX_CACHE_DIR;
         }
         $cmd = sprintf(
-            'grep -lr %s %s | xargs rm -f >/dev/null &',
+            'grep -lr %s %s | xargs rm -f &> /dev/null &',
             escapeshellarg(home_url()),
             escapeshellarg($this->cache_dir)
         );
