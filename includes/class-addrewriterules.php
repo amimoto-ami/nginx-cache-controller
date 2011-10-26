@@ -1,5 +1,6 @@
 <?php
 
+if (!class_exists('WP_AddRewriteRules')):
 class WP_AddRewriteRules{
     private $rule     = null;
     private $query    = null;
@@ -51,5 +52,6 @@ class WP_AddRewriteRules{
         }
     }
 }
+endif;
 
-?>
+// eol
