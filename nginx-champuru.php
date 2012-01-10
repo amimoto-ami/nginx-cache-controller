@@ -42,6 +42,19 @@ function __construct()
     add_action("save_post", array(&$this, "flush_caches"));
     add_action("comment_post", array(&$this, "flush_caches"));
     add_action("wp_set_comment_status", array(&$this, "flush_caches"));
+    add_filter("got_rewrite", "__return_true");
+    add_filter("pre_comment_user_ip", "pre_comment_user_ip");
+}
+
+public function pre_comment_user_ip()
+{
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $X_FORWARDED_FOR = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
+        $REMOTE_ADDR = trim($X_FORWARDED_FOR[0]);
+    } else {
+        $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
+    }
+    return $REMOTE_ADDR;
 }
 
 public function flush_caches()
