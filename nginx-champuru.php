@@ -43,7 +43,7 @@ function __construct()
     add_action("comment_post", array(&$this, "flush_caches"));
     add_action("wp_set_comment_status", array(&$this, "flush_caches"));
     add_filter("got_rewrite", "__return_true");
-    add_filter("pre_comment_user_ip", "pre_comment_user_ip");
+    add_filter("pre_comment_user_ip", array(&$this, "pre_comment_user_ip"));
 }
 
 public function pre_comment_user_ip()
