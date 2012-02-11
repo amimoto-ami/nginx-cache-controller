@@ -18,6 +18,10 @@ function __construct()
 {
     require_once(dirname(__FILE__)."/includes/caching.class.php");
     new NginxChampuru_Caching();
+    require_once(dirname(__FILE__)."/includes/cache-control.class.php");
+    new NginxChampuru_CacheControl();
+    require_once(dirname(__FILE__)."/includes/flush-cache.class.php");
+    new NginxChampuru_FlushCache();
 }
 
 }
