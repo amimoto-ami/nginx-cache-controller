@@ -4,7 +4,7 @@ Donate link: http://firegoby.theta.ne.jp/
 Tags: nginx, reverse proxy, cache 
 Requires at least: 3.2
 Tested up to: 3.3
-Stable tag: 0.4.0
+Stable tag: 0.5.0
 
 Fix some cache problems on proxy server.
 
