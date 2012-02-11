@@ -3,31 +3,22 @@
 Plugin Name: Nginx Champuru
 Author: Takayuki Miyauchi
 Plugin URI: http://firegoby.theta.ne.jp/wp/nginx-champuru
-Description: Plugin for Nginx Reverse Proxy 
-Version: 0.4.0
+Description: Plugin for Nginx Reverse Proxy
+Version: 0.5.0
 Author URI: http://firegoby.theta.ne.jp/
 Domain Path: /languages
 Text Domain: nginx-champuru
 */
 
-require_once(dirname(__FILE__).'/includes/class-addrewriterules.php');
-
 new NginxChampuru();
-register_activation_hook(__FILE__, 'flush_rewrite_rules');
 
 class NginxChampuru {
 
-private $js_version = "0.2.0";
 private $query = "nginxchampuru";
 private $cache_dir = '/var/cache/nginx';
 
 function __construct()
 {
-    new WP_AddRewriteRules(
-        'nginx-champuru.json$',
-        $this->query,
-        array(&$this, 'get_commenter_json')
-    );
     add_action("wp", array(&$this, "wp"));
     add_action(
         'wp_enqueue_scripts',
@@ -38,12 +29,23 @@ function __construct()
         array(&$this, "wp_get_current_commenter"),
         9999
     );
-    add_action("publish_future_post ", array(&$this, "flush_caches"));
-    add_action("save_post", array(&$this, "flush_caches"));
-    add_action("comment_post", array(&$this, "flush_caches"));
-    add_action("wp_set_comment_status", array(&$this, "flush_caches"));
     add_filter("got_rewrite", "__return_true");
     add_filter("pre_comment_user_ip", array(&$this, "pre_comment_user_ip"));
+    add_action(
+        'wp_ajax_nginx_get_commenter',
+        array(&$this, 'wp_ajax_nginx_get_commenter')
+    );
+    add_action(
+        'wp_ajax_nopriv_nginx_get_commenter',
+        array(&$this, 'wp_ajax_nginx_get_commenter')
+    );
+    add_filter("nocache_headers", array(&$this, "nocache_headers"));
+}
+
+public function nocache_headers($h)
+{
+    $h["X-Accel-Expires"] = 0;
+    return $h;
 }
 
 public function pre_comment_user_ip()
@@ -57,21 +59,6 @@ public function pre_comment_user_ip()
     return $REMOTE_ADDR;
 }
 
-public function flush_caches()
-{
-    if (defined("NGINX_DELETE_CACHES") && NGINX_DELETE_CACHES) {
-        if (defined("NGINX_CACHE_DIR") && NGINX_CACHE_DIR) {
-            $this->cache_dir = NGINX_CACHE_DIR;
-        }
-        $cmd = sprintf(
-            'grep -lr %s %s | xargs rm -f &> /dev/null &',
-            escapeshellarg(home_url()),
-            escapeshellarg($this->cache_dir)
-        );
-        exec($cmd);
-    }
-}
-
 public function wp()
 {
     global $post;
@@ -83,17 +70,31 @@ public function wp()
 public function wp_enqueue_scripts()
 {
     if ((is_singular() && comments_open()) || $this->is_future_post()) {
-        wp_enqueue_script(
-            'nginx-champuru',
-            plugins_url('/nginx-champuru.js', __FILE__),
-            array('jquery'),
-            $this->js_version,
-            true
+        wp_enqueue_script('jquery');
+        add_action(
+            "wp_print_footer_scripts",
+            array(&$this, "wp_print_footer_scripts")
         );
     }
 }
 
-public function get_commenter_json()
+public function wp_print_footer_scripts()
+{
+    $js =<<<EOL
+<script type="text/javascript">
+(function($){
+    $.getJSON("%s", function(json){
+        $('#author').val(json.comment_author);
+        $('#email').val(json.comment_author_email);
+        $('#url').val(json.comment_author_url);
+    });
+})(jQuery);
+</script>
+EOL;
+    printf($js, admin_url("admin-ajax.php?action=nginx_get_commenter"));
+}
+
+public function wp_ajax_nginx_get_commenter()
 {
     nocache_headers();
     header('Content-type: application/json');
@@ -103,7 +104,8 @@ public function get_commenter_json()
 
 public function wp_get_current_commenter($commenter)
 {
-    if (get_query_var($this->query)) {
+    if (defined("DOING_AJAX") && DOING_AJAX &&
+            isset($_GET["action"]) && $_GET["action"] === "nginx_get_commenter") {
         return $commenter;
     } else {
         return array(
@@ -130,4 +132,4 @@ private function is_future_post()
 
 }
 
-?>
+// EOF
