@@ -2,22 +2,17 @@
 
 class NginxChampuru_FlushCache {
 
-private $cache_dir = "/var/cache/nginx";
+private $post_type = "nginx_cache_uri";
 
 function __construct()
 {
+    add_action("wp", array(&$this, "wp"));
 }
 
-private function get_cache_dir()
+public function wp()
 {
-    if (defined("NGINX_CACHE_DIR") && is_dir("NGINX_CACHE_DIR")) {
-        return NGINX_CACHE_DIR;
-    } elseif (get_option("nginxchampuru-cache_dir") &&
-            is_dir(get_option("nginxchampuru-cache_dir"))) {
-        return get_option("nginxchampuru-cache_dir");
-    } else {
-        return $this->cache_dir;
-    }
+    global $nginxchampuru;
+    $nginxchampuru->add();
 }
 
 }

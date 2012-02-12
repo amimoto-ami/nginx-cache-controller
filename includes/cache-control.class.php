@@ -2,39 +2,43 @@
 
 class NginxChampuru_CacheControl {
 
-private $expire = 86400;
+private $ngx;
 
 function __construct()
 {
     add_action("template_redirect", array(&$this, "template_redirect"));
 }
 
-public function template_redirect()
+public function admin_menu()
 {
-    if (is_home()) {
-        $exp = $this->get_expires("is_home");
-    } elseif (is_archive()) {
-        $exp = $this->get_expires("is_archive");
-    } elseif (is_single()) {
-        $exp = $this->get_expires("is_single");
-    } elseif (is_page()) {
-        $exp = $this->get_expires("is_page");
-    } elseif (is_singular()) {
-        $exp = $this->get_expires("is_singular");
-    } else {
-        $exp = $this->get_expires("other");
-    }
-    header('X-Accel-Expires: '.intval($exp));
+    $hook = add_menu_page(
+        "Nginx Settings",
+        "Nginx Settings",
+        "update_core",
+        "nginxchampuru",
+        array(&$this, "cache_control"),
+        plugins_url($this->plugin_dir.'/img/nginx.png', __FILE__),
+        "3"
+    );
+    add_action('admin_print_styles-'.$hook, array(&$this, 'admin_styles'));
 }
 
-private function get_expires()
+public function admin_styles()
 {
-    $expires = get_option("nginxchampuru-cache_expires");
-    if (!strlen($expires[$par])) {
-        return $this->expire;
-    } else {
-        return $expires[$par];
-    }
+    wp_register_style(
+        "ninjax-style",
+        plugins_url($this->plugin_dir.'/admin.css', __FILE__),
+        array(),
+        filemtime(dirname(__FILE__).$this->plugin_dir."/admin.css")
+    );
+    wp_enqueue_style("ninjax-style");
+}
+
+public function template_redirect()
+{
+    global $nginxchampuru;
+    $exp = $nginxchampuru->get_expire();
+    header('X-Accel-Expires: '.intval($exp));
 }
 
 }
