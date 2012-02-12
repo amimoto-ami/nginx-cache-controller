@@ -34,6 +34,9 @@ function __construct()
 
 public function add()
 {
+    if (is_admin()) {
+        return;
+    }
     global $wpdb;
     $res = $wpdb->insert(
         $this->table,
@@ -107,10 +110,14 @@ private function get_cache_dir()
 
 private function get_cache_key()
 {
-    return apply_filters(
-        'nginxchampuru_get_reverse_proxy_key',
-        md5($this->get_the_url())
-    );
+    if (has_filter("nginxchampuru_get_reverse_proxy_key")) {
+        return apply_filters(
+            'nginxchampuru_get_reverse_proxy_key',
+            $this->get_the_url()
+        );
+    } else {
+        return md5($this->get_the_url());
+    }
 }
 
 private function get_postid()
@@ -132,6 +139,5 @@ private function get_the_url()
 }
 
 }
-
 
 // EOF
