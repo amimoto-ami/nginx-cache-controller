@@ -19,6 +19,8 @@ require_once(dirname(__FILE__)."/includes/cache-control.class.php");
 new NginxChampuru_CacheControl();
 require_once(dirname(__FILE__)."/includes/flush-cache.class.php");
 new NginxChampuru_FlushCache();
+require_once(dirname(__FILE__)."/includes/admin.class.php");
+new NginxChampuru_Admin();
 
 class NginxChampuru {
 
@@ -34,11 +36,12 @@ function __construct()
 
 public function add()
 {
-    if (is_admin()) {
+    if (is_admin() || is_user_logged_in()) {
         return;
     }
     global $wpdb;
-    $res = $wpdb->insert(
+    $wpdb->hide_errors();
+    @$wpdb->insert(
         $this->table,
         array(
             'cache_key'  => $this->get_cache_key(),
@@ -47,6 +50,40 @@ public function add()
         ),
         array('%s', '%d', '%s')
     );
+    $wpdb->show_errors();
+}
+
+public function flush_cache($mode = "all", $id = 0)
+{
+    global $wpdb;
+    if ($mode == "all") {
+        $sql = "select `cache_key` from `$this->table`";
+    } elseif ($mode == "single" && intval($id)) {
+        $sql = $wpdb->prepare(
+            "select `cache_key` from `$this->table` where cache_id=%d",
+            intval($id)
+        );
+    } elseif (!$mode && intval($id)) {
+        $sql = $wpdb->prepare(
+            "select `cache_key` from `$this->table`
+                where cache_id=%d or
+                cache_type in ('is_home', 'is_archive', 'other')",
+            intval($id)
+        );
+    } else {
+        return;
+    }
+
+    $keys = $wpdb->get_col($sql);
+    foreach ($keys as $key) {
+        $cache = $this->get_cache($key);
+        if (is_file($cache)) {
+            unlink($cache);
+        }
+    }
+
+    $sql = "delete from `$this->table` where cache_key in ('".join("','", $keys)."')";
+    $wpdb->query($sql);
 }
 
 public function activation()
@@ -96,27 +133,40 @@ public function get_post_type()
     return $type;
 }
 
-private function get_cache_dir()
+public function get_cache($key)
 {
-    if (defined("NGINX_CACHE_DIR") && is_dir("NGINX_CACHE_DIR")) {
-        return NGINX_CACHE_DIR;
-    } elseif (get_option("nginxchampuru_cache_dir") &&
-            is_dir(get_option("nginxchampuru_cache_dir"))) {
-        return get_option("nginxchampuru_cache_dir");
+    if (has_filter("nginxchampuru_get_cache")) {
+        return apply_filters(
+            'nginxchampuru_get_cache',
+            $key
+        );
     } else {
-        return $this->cache_dir;
+        $path = array();
+        $path[] = $this->get_cache_dir();
+        $path[] = substr($key, -1);
+        $path[] = substr($key, -3, 2);
+        $path[] = $key;
+        return join("/", $path);
     }
 }
 
-private function get_cache_key()
+private function get_cache_dir()
 {
+    return $this->cache_dir;
+}
+
+private function get_cache_key($url = null)
+{
+    if (!$url) {
+        $url = $this->get_the_url();
+    }
     if (has_filter("nginxchampuru_get_reverse_proxy_key")) {
         return apply_filters(
             'nginxchampuru_get_reverse_proxy_key',
-            $this->get_the_url()
+            $url
         );
     } else {
-        return md5($this->get_the_url());
+        return md5($url);
     }
 }
 
