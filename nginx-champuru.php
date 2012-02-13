@@ -32,6 +32,16 @@ function __construct()
 {
     global $wpdb;
     $this->table = $wpdb->prefix.'nginxchampuru';
+    add_action('plugins_loaded',    array(&$this, 'plugins_loaded'));
+}
+
+public function plugins_loaded()
+{
+    load_plugin_textdomain(
+        "nginxchampuru",
+        false,
+        dirname(plugin_basename(__FILE__)).'/languages'
+    );
 }
 
 public function add()
