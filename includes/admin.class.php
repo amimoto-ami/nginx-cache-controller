@@ -4,6 +4,7 @@
 class NginxChampuru_Admin {
 
 private $default_cache_params = array();
+private $methods = array();
 
 function __construct()
 {
@@ -13,8 +14,38 @@ function __construct()
         'is_singular' => __("Singular", "nginxchampuru"),
         'other'       => __("Other", "nginxchampuru"),
     );
+    $this->methods = array(
+        'none' => __('None', 'nginxchampuru'),
+        'all' => __('Flush All Caches.', 'nginxchampuru'),
+        'almost' => __('Flush current page and non-article pages.', 'nginxchampuru'),
+        'single' => __('Flush current page only.', 'nginxchampuru'),
+    );
+
     add_action("admin_bar_menu", array(&$this, "admin_bar_menu"), 9999);
     add_action("admin_menu", array(&$this, "admin_menu"));
+}
+
+private function get_modes_select($name)
+{
+    global $nginxchampuru;
+    $method = $nginxchampuru->get_flush_method($name);
+    $input = '<li><input type="radio" name="%s" value="%s" %s /> %s</li>';
+    echo "<ul class=\"checkbox\">";
+    foreach ($this->methods as $key => $text) {
+        if ($key === $method) {
+            $check = 'checked="checked"';
+        } else {
+            $check = null;
+        }
+        printf(
+            $input,
+            $name,
+            $key,
+            $check,
+            $text
+        );
+    }
+    echo "</ul>";
 }
 
 public function admin_menu()
@@ -22,8 +53,8 @@ public function admin_menu()
     global $nginxchampuru;
 
     $hook = add_menu_page(
-        "Nginx Champuru",
-        "Nginx Champuru",
+        "Nginx Cache",
+        "Nginx Cache",
         "update_core",
         "nginx-champuru",
         array(&$this, "admin_panel"),
@@ -31,6 +62,23 @@ public function admin_menu()
         "3"
     );
     add_action('admin_print_styles-'.$hook, array(&$this, 'admin_styles'));
+    add_action('admin_head-'.$hook, array(&$this, 'admin_head'));
+}
+
+public function admin_head()
+{
+    if (!isset($_POST['nonce']) ||
+            !wp_verify_nonce($_POST['nonce'], "nginxchampuru-optionsave")) {
+        return;
+    }
+
+    foreach ($this->default_cache_params as $key => $value) {
+        $_POST['expires'][$key] = intval($_POST['expires'][$key]);
+    }
+    update_option("nginxchampuru-cache_expires", $_POST['expires']);
+    update_option("nginxchampuru-publish", $_POST["publish"]);
+    update_option("nginxchampuru-comment", $_POST["comment"]);
+    wp_redirect(admin_url("admin.php?page=nginx-champuru&message=true"));
 }
 
 public function admin_panel()
@@ -50,7 +98,7 @@ public function admin_styles()
         array(),
         filemtime($nginxchampuru->get_plugin_dir()."/admin.css")
     );
-    wp_enqueue_style("ninjax-style");
+    wp_enqueue_style("nginxchampuru");
 }
 
 public function admin_bar_menu($bar)

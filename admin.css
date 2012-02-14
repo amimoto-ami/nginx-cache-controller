@@ -1,0 +1,32 @@
+#nginxchampuru-title
+{
+    background-image: url(images/nginxchampuru-32x32.png);
+    line-height: 32px;
+    height: 32px;
+    padding-left: 35px;
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+#nginxchampuru-settings input.int
+{
+    width: 6em;
+    text-align: right;
+}
+
+#nginxchampuru-settings dl
+{
+   margin: 10px; 
+}
+
+#nginxchampuru-settings dt
+{
+    width: 100px;
+    float: left;
+    margin-bottom: 10px;
+}
+
+#nginxchampuru-settings dd
+{
+    margin-bottom: 10px;
+}

@@ -28,11 +28,25 @@ private $table;
 private $expire = 86400;
 private $cache_dir = "/var/cache/nginx";
 
+// hook and flush mode
+private $method =array(
+    'publish' => 'almost',
+    'comment' => 'single',
+);
+
 function __construct()
 {
     global $wpdb;
     $this->table = $wpdb->prefix.'nginxchampuru';
     add_action('plugins_loaded',    array(&$this, 'plugins_loaded'));
+}
+
+public function get_flush_method($hook)
+{
+    return get_option(
+        'nginxchampuru-'.$hook,
+        $this->method[$hook]
+    );
 }
 
 public function get_default_expire()
@@ -119,14 +133,14 @@ private function flush_cache()
     $id     = $params[0][1];
 
     global $wpdb;
-    if ($mode == "all") {
+    if ($mode === "all") {
         $sql = "select `cache_key` from `$this->table`";
-    } elseif ($mode == "single" && intval($id)) {
+    } elseif ($mode === "single" && intval($id)) {
         $sql = $wpdb->prepare(
             "select `cache_key` from `$this->table` where cache_id=%d",
             intval($id)
         );
-    } elseif (!$mode && intval($id)) {
+    } elseif ($mode === 'almost' && intval($id)) {
         $sql = $wpdb->prepare(
             "select `cache_key` from `$this->table`
                 where cache_id=%d or
