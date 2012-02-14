@@ -65,6 +65,12 @@ public function add()
 
 public function flush_cache($mode = "all", $id = 0)
 {
+    if (get_transient("nginxchampuru_flush")) {
+        return;
+    } else {
+        set_transient("nginxchampuru_flush", 1, 600);
+    }
+
     global $wpdb;
     if ($mode == "all") {
         $sql = "select `cache_key` from `$this->table`";
@@ -94,6 +100,8 @@ public function flush_cache($mode = "all", $id = 0)
 
     $sql = "delete from `$this->table` where cache_key in ('".join("','", $keys)."')";
     $wpdb->query($sql);
+
+    delete_transient("nginxchampuru_flush");
 }
 
 public function activation()
@@ -160,12 +168,12 @@ public function get_cache($key)
     }
 }
 
-private function get_cache_dir()
+public function get_cache_dir()
 {
     return $this->cache_dir;
 }
 
-private function get_cache_key($url = null)
+public function get_cache_key($url = null)
 {
     if (!$url) {
         $url = $this->get_the_url();
