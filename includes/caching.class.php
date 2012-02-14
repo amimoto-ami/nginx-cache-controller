@@ -27,6 +27,14 @@ function __construct()
         array(&$this, 'wp_ajax_nginx_get_commenter')
     );
     add_filter("nocache_headers", array(&$this, "nocache_headers"));
+    add_action("template_redirect", array(&$this, "template_redirect"));
+}
+
+public function template_redirect()
+{
+    global $nginxchampuru;
+    $exp = $nginxchampuru->get_expire();
+    header('X-Accel-Expires: '.intval($exp));
 }
 
 public function nocache_headers($h)
