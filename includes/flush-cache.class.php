@@ -12,15 +12,26 @@ function __construct()
 }
 
 public function wp_ajax_flushthis()
+{
+    if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], "flushthis")) {
+        die('Security check');
+    }
+    if (current_user_can("administrator")) {
+        global $nginxchampuru;
+        $nginxchampuru->transientExec("flush_this", esc_url($_GET["redirect_to"]));
+    }
     wp_redirect(esc_url($_GET["redirect_to"]));
     exit;
 }
 
 public function wp_ajax_flushcache()
 {
+    if (!isset($_GET['nonce']) || !wp_verify_nonce($_GET['nonce'], "flushcache")) {
+        die('Security check');
+    }
     if (current_user_can("administrator")) {
         global $nginxchampuru;
-        $nginxchampuru->flush_cache("all");
+        $nginxchampuru->transientExec("flush_cache", "all", 1212);
     }
     wp_redirect(esc_url($_GET["redirect_to"]));
     exit;

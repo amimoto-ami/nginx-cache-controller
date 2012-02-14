@@ -35,6 +35,21 @@ function __construct()
     add_action('plugins_loaded',    array(&$this, 'plugins_loaded'));
 }
 
+public function get_default_expire()
+{
+    return $this->expire;
+}
+
+public function get_plugin_url()
+{
+    return plugins_url('', __FILE__);
+}
+
+public function get_plugin_dir()
+{
+    return dirname(__FILE__);
+}
+
 public function plugins_loaded()
 {
     load_plugin_textdomain(
@@ -46,7 +61,7 @@ public function plugins_loaded()
 
 public function add()
 {
-    if (is_admin() || is_user_logged_in()) {
+    if (is_admin()) {
         return;
     }
     global $wpdb;
@@ -63,13 +78,45 @@ public function add()
     $wpdb->show_errors();
 }
 
-public function flush_cache($mode = "all", $id = 0)
+public function transientExec($callback)
 {
     if (get_transient("nginxchampuru_flush")) {
         return;
     } else {
         set_transient("nginxchampuru_flush", 1, 600);
     }
+
+    $params = func_get_args();
+    array_shift($params);
+    call_user_func(array(&$this, $callback), $params);
+
+    delete_transient("nginxchampuru_flush");
+}
+
+private function flush_this()
+{
+    $params = func_get_args();
+    $url    = $params[0][0];
+
+    $key    = $this->get_cache_key($url);
+    $cache  = $this->get_cache($key);
+
+    if (is_file($cache)) {
+        unlink($cache);
+    }
+
+    global $wpdb;
+    $sql = $wpdb->prepare(
+        "delete from `$this->table` where cache_key=%s",
+        $key
+    );
+}
+
+private function flush_cache()
+{
+    $params = func_get_args();
+    $mode   = $params[0][0];
+    $id     = $params[0][1];
 
     global $wpdb;
     if ($mode == "all") {
@@ -100,8 +147,6 @@ public function flush_cache($mode = "all", $id = 0)
 
     $sql = "delete from `$this->table` where cache_key in ('".join("','", $keys)."')";
     $wpdb->query($sql);
-
-    delete_transient("nginxchampuru_flush");
 }
 
 public function activation()
@@ -111,7 +156,7 @@ public function activation()
         $sql = "CREATE TABLE `{$this->table}` (
             `cache_key` varchar(32) not null,
             `cache_id` bigint(20) unsigned default 0 not null,
-            `cache_type` varchar(10) not null,
+            `cache_type` varchar(11) not null,
             primary key (`cache_key`),
             key `cache_id` (`cache_id`),
             key `cache_type`(`cache_type`)
@@ -125,10 +170,10 @@ public function get_expire()
 {
     $expires = get_option("nginxchampuru-cache_expires");
     $par = $this->get_post_type();
-    if (!strlen($expires[$par])) {
-        return $this->expire;
-    } else {
+    if (isset($expires[$par]) && strlen($expires[$par])) {
         return $expires[$par];
+    } else {
+        return $this->get_default_expire();
     }
 }
 
@@ -138,10 +183,6 @@ public function get_post_type()
         $type = "is_home";
     } elseif (is_archive()) {
         $type = "is_archive";
-    } elseif (is_single()) {
-        $type = "is_single";
-    } elseif (is_page()) {
-        $type = "is_page";
     } elseif (is_singular()) {
         $type = "is_singular";
     } else {
@@ -198,7 +239,7 @@ private function get_postid()
     }
 }
 
-private function get_the_url()
+public function get_the_url()
 {
     return apply_filters(
         'nginxchampuru_get_the_url',
