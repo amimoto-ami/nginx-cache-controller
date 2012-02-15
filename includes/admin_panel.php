@@ -51,7 +51,7 @@ if (!is_array($expires)) {
 </table>
 
 
-<p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="変更を保存"  /></p>
+<p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e("Save", "nginxchampuru"); ?>"  /></p>
 </form>
 
 </div><!-- #ninjax-expirescontrol -->
