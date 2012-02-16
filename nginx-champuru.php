@@ -1,13 +1,13 @@
 <?php
 /*
-Plugin Name: Nginx Champuru
-Author: Takayuki Miyauchi
+Plugin Name: Nginx Cache Controller
+Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: http://firegoby.theta.ne.jp/wp/nginx-champuru
 Description: Plugin for Nginx Reverse Proxy
-Version: 0.5.0
-Author URI: http://firegoby.theta.ne.jp/
+Version: 1.0.0
+Author URI: http://ninjax.cc/
 Domain Path: /languages
-Text Domain: nginx-champuru
+Text Domain: nginxchampuru
 */
 
 $nginxchampuru = new NginxChampuru();
