@@ -118,6 +118,9 @@ public function admin_head()
         return;
     }
 
+    global $nginxchampuru;
+    $nginxchampuru->activation();
+
     foreach ($this->default_cache_params as $key => $value) {
         $_POST['expires'][$key] = intval($_POST['expires'][$key]);
     }
