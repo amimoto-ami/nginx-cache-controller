@@ -27,19 +27,51 @@ if (!is_array($expires)) {
         if (isset($expires[$par]) && strlen($expires[$par])) {
             $expires[$par] = intval($expires[$par]);
         } else {
-            $expires[$par] = $nginxchampuru->get_default_expire();
+            $expires[$par] = intval($nginxchampuru->get_default_expire());
         }
     ?>
-    <th><?php echo $title; ?></th>
-    <td><input type="text" class="int" name="expires[<?php echo $par; ?>]" value="<?php echo $expires[$par]; ?>" /> sec</td>
+    <th><?php echo esc_html($title); ?></th>
+    <td><input type="text" class="int" name="expires[<?php echo esc_attr($par); ?>]" value="<?php echo $expires[$par]; ?>" /> sec</td>
 </tr>
 <?php endforeach; ?>
 </table>
 
 
-<h3><?php _e("Automatic Flush", "nginxchampuru"); ?></h3>
+<h3><?php _e("Settings for Flush Cache", "nginxchampuru"); ?></h3>
 
 <table class="form-table">
+<tr>
+    <th><?php _e("Enable Flush Cache", "nginxchampuru"); ?></th>
+    <td><?php $this->is_enable_flush(); ?></td>
+</tr>
+</table>
+
+<h4><?php _e("Nginx Reverse Proxy Settings", "nginxchampuru"); ?></h4>
+
+<table class="form-table auto_flush_table">
+<tr>
+    <th><?php _e("Cache Directory", "nginxchampuru"); ?></th>
+    <td><?php
+        printf(
+            '<input type="text" name="cache_dir" value="%s" />',
+            esc_attr($nginxchampuru->get_cache_dir())
+        );
+    ?></td>
+</tr>
+<tr>
+    <th><?php _e("Cache Levels", "nginxchampuru"); ?></th>
+    <td><?php
+        printf(
+            '<input type="text" name="cache_levels" value="%s" />',
+            esc_attr($nginxchampuru->get_cache_levels())
+        );
+    ?></td>
+</tr>
+</table>
+
+<h4><?php _e("Auto-Flush Hooks", "nginxchampuru"); ?></h4>
+
+<table class="form-table auto_flush_table">
 <tr>
     <th><?php _e("On Publish", "nginxchampuru"); ?></th>
     <td><?php $this->get_modes_select("publish"); ?></td>

@@ -30,8 +30,11 @@ public function flush_by_comment($cid)
 
 public function flush_caches($mode = null, $id = 0)
 {
+    global $nginxchampuru;
+    if (!$nginxchampuru->is_enable_flush()) {
+        return;
+    }
     if ($mode) {
-        global $nginxchampuru;
         $nginxchampuru->transientExec("flush_cache", $mode, $id);
     }
 }

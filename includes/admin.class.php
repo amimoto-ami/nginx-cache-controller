@@ -25,11 +25,57 @@ function __construct()
     add_action("admin_menu", array(&$this, "admin_menu"));
 }
 
+private function is_enable_flush()
+{
+    global $nginxchampuru;
+    $enabled = $nginxchampuru->is_enable_flush();
+    $checked = '<input type="%s" name="%s" id="%s" value="%d" checked="checked" /> %s';
+    $notchecked = '<input type="%s" name="%s" id="%s" value="%d" /> %s';
+    $list = array();
+    if ($enabled) {
+        $list[] = sprintf(
+            $checked,
+            "radio",
+            "enable_flush",
+            "radio-yes",
+            "1",
+            "<label for=\"radio-yes\">Yes</label>"
+        );
+        $list[] = sprintf(
+            $notchecked,
+            "radio",
+            "enable_flush",
+            "radio-no",
+            "0",
+            "<label for=\"radio-no\">No</label>"
+        );
+    } else {
+        $list[] = sprintf(
+            $notchecked,
+            "radio",
+            "enable_flush",
+            "radio-yes",
+            "1",
+            "<label for=\"radio-yes\">Yes</label>"
+        );
+        $list[] = sprintf(
+            $checked,
+            "radio",
+            "enable_flush",
+            "radio-no",
+            "0",
+            "<label for=\"radio-no\">No</label>"
+        );
+    }
+
+    echo "<ul><li>".join("</li><li>", $list)."</li></ul>";
+}
+
 private function get_modes_select($name)
 {
     global $nginxchampuru;
     $method = $nginxchampuru->get_flush_method($name);
-    $input = '<li><input type="radio" name="%s" value="%s" %s /> %s</li>';
+    $input = '<li><input type="radio" name="%1$s" value="%2$s" id="%1$s_%2$s" %3$s /> <label for="%1$s_%2$s">%4$s</label></li>';
     echo "<ul class=\"checkbox\">";
     foreach ($this->methods as $key => $text) {
         if ($key === $method) {
@@ -76,8 +122,11 @@ public function admin_head()
         $_POST['expires'][$key] = intval($_POST['expires'][$key]);
     }
     update_option("nginxchampuru-cache_expires", $_POST['expires']);
-    update_option("nginxchampuru-publish", $_POST["publish"]);
-    update_option("nginxchampuru-comment", $_POST["comment"]);
+    update_option("nginxchampuru-enable_flush", intval($_POST['enable_flush']));
+    update_option("nginxchampuru-cache_dir", $_POST['cache_dir']);
+    update_option("nginxchampuru-cache_levels", $_POST['cache_levels']);
+    update_option("nginxchampuru-publish", esc_html($_POST["publish"]));
+    update_option("nginxchampuru-comment", esc_html($_POST["comment"]));
     wp_redirect(admin_url("admin.php?page=nginx-champuru&message=true"));
 }
 
@@ -103,6 +152,11 @@ public function admin_styles()
 
 public function admin_bar_menu($bar)
 {
+    global $nginxchampuru;
+    if (!$nginxchampuru->is_enable_flush()) {
+        return;
+    }
+
     if (current_user_can("administrator")) {
         $bar->add_menu(array(
             "id"    => "nginxchampuru",
@@ -123,7 +177,7 @@ public function admin_bar_menu($bar)
         $bar->add_menu(array(
             "parent" => "nginxchampuru",
             "id"    => "clearcache",
-            "title" => __("Flush all caches", "nginxchampuru"),
+            "title" => __("Flush All Caches", "nginxchampuru"),
             "href"  => $this->get_cacheclear_url(),
             "meta"  => false,
         ));

@@ -25,6 +25,8 @@ class NginxChampuru {
 private $table;
 private $expire = 86400;
 private $cache_dir = "/var/cache/nginx";
+private $cache_levels = "1:2";
+private $transient_timeout = 60;
 
 // hook and flush mode
 private $method =array(
@@ -37,6 +39,16 @@ function __construct()
     global $wpdb;
     $this->table = $wpdb->prefix.'nginxchampuru';
     add_action('plugins_loaded',    array(&$this, 'plugins_loaded'));
+}
+
+public function is_enable_flush()
+{
+    return get_option("nginxchampuru-enable_flush", 0);
+}
+
+public function get_cache_levels()
+{
+    return get_option("nginxchampuru-cache_levels", $this->cache_levels);
 }
 
 public function get_flush_method($hook)
@@ -92,10 +104,14 @@ public function add()
 
 public function transientExec($callback)
 {
+    if (!$this->is_enable_flush()) {
+        return;
+    }
+
     if (get_transient("nginxchampuru_flush")) {
         return;
     } else {
-        set_transient("nginxchampuru_flush", 1, 600);
+        set_transient("nginxchampuru_flush", 1, $this->transient_timeout);
     }
 
     $params = func_get_args();
@@ -212,10 +228,14 @@ public function get_cache($key)
             $key
         );
     } else {
+        $levels = preg_split("/:/", $this->get_cache_levels());
         $path = array();
         $path[] = $this->get_cache_dir();
-        $path[] = substr($key, -1);
-        $path[] = substr($key, -3, 2);
+        $offset = 0;
+        foreach ($levels as $l) {
+            $offset = $offset + $l;
+            $path[] = substr($key, 0-$offset, $l);
+        }
         $path[] = $key;
         return join("/", $path);
     }
@@ -223,7 +243,7 @@ public function get_cache($key)
 
 public function get_cache_dir()
 {
-    return $this->cache_dir;
+    return get_option("nginxchampuru-cache_dir", $this->cache_dir);
 }
 
 public function get_cache_key($url = null)
