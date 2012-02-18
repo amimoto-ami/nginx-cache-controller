@@ -63,10 +63,16 @@ Nginxの設定例は以下のとおりです。
 * デフォルトのlevelsの設定値は、1:2です。
 * キャッシュのパスの設定は、管理画面で変更可能です。
 
+(例) リバースプロキシのキャッシュ用キーの設定
+`proxy_cache_key "$scheme://$host$request_uri"`
+
+
 == Changelog ==
 
 = 1.0.0 =
-* Change name to "Nginx Cache Controller"
+* Rename to "Nginx Cache Controller"
+* Cache Controll
+* Auto-Flush Cache
 
 = 0.1.0 =
 * The first release.
