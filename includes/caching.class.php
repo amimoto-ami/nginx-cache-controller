@@ -28,6 +28,18 @@ function __construct()
     );
     add_filter("nocache_headers", array(&$this, "nocache_headers"));
     add_action("template_redirect", array(&$this, "template_redirect"));
+    add_filter("nonce_life", array(&$this, "nonce_life"));
+}
+
+public function nonce_life($life)
+{
+    $expires = get_option("nginxchampuru-cache_expires");
+    $max = max(array_values($expires));
+    if ($max > $life) {
+        return $max;
+    } else {
+        return $life;
+    }
 }
 
 public function template_redirect()
