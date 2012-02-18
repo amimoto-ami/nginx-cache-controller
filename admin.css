@@ -1,11 +1,32 @@
-#nginxchampuru-title
+#nginxchampuru-settings
 {
-    background-image: url(images/nginxchampuru-32x32.png);
-    line-height: 32px;
-    height: 32px;
-    padding-left: 35px;
-    background-repeat: no-repeat;
-    background-position: left center;
+    margin: 0 10px;
+}
+
+#nginxchampuru-settings .form-table
+{
+    margin-bottom: 2em;
+}
+
+#nginxchampuru-settings .title,
+#nginxchampuru-settings h3,
+#nginxchampuru-settings h4
+{
+    margin-left: -10px;
+}
+
+#nginxchampuru-settings h3
+{
+    font-size: 22px;
+    padding: 5px;
+    border-bottom: 3px solid #dedede;
+    color: #555555;
+}
+
+#nginxchampuru-settings h4
+{
+    font-size: 18px;
+    color: #555555;
 }
 
 #nginxchampuru-settings input.int
@@ -30,3 +51,9 @@
 {
     margin-bottom: 10px;
 }
+
+#enable-flush
+{
+    display: none;
+}
+

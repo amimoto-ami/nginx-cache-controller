@@ -1,6 +1,9 @@
 <div id="nginxchampuru-settings">
+
+<div class="title">
 <div id="icon-options-general" class="icon32"><br /></div>
 <h2><?php _e("Cache Settings", "nginxchampuru"); ?> <a href="<?php echo $this->get_cacheclear_url(); ?>" class="add-new-h2"><?php _e("Flush All Caches", "nginxchampuru"); ?></a></h2>
+</div>
 
 <?php if (isset($_GET['message']) && $_GET['message'] === "true"): ?>
 <div id="message" class="updated"><p><?php _e("Saved.", "nginxchampuru"); ?></p></div>
@@ -46,9 +49,11 @@ if (!is_array($expires)) {
 </tr>
 </table>
 
+<div id="enable-flush">
+
 <h4><?php _e("Nginx Reverse Proxy Settings", "nginxchampuru"); ?></h4>
 
-<table class="form-table auto_flush_table">
+<table class="form-table">
 <tr>
     <th><?php _e("Cache Directory", "nginxchampuru"); ?></th>
     <td><?php
@@ -71,7 +76,7 @@ if (!is_array($expires)) {
 
 <h4><?php _e("Auto-Flush Hooks", "nginxchampuru"); ?></h4>
 
-<table class="form-table auto_flush_table">
+<table class="form-table">
 <tr>
     <th><?php _e("On Publish", "nginxchampuru"); ?></th>
     <td><?php $this->get_modes_select("publish"); ?></td>
@@ -82,8 +87,24 @@ if (!is_array($expires)) {
 </tr>
 </table>
 
+</div><!-- #enable-flush -->
 
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e("Save", "nginxchampuru"); ?>"  /></p>
 </form>
 
 </div><!-- #ninjax-expirescontrol -->
+
+<script type="text/javascript">
+(function($){
+    $("#radio-yes").click(function(){
+        $("#enable-flush").fadeIn(50);
+    });
+    $("#radio-no").click(function(){
+        $("#enable-flush").fadeOut(50);
+    });
+    if ($("#radio-yes").prop('checked')) {
+        $("#enable-flush").show();
+    }
+})(jQuery);
+</script>
+
