@@ -67,6 +67,8 @@ Nginxの設定例は以下のとおりです。
 (例) リバースプロキシのキャッシュ用キーの設定
 `proxy_cache_key "$scheme://$host$request_uri"`
 
+* proxy_cache_keyは、`nginxchampuru_get_reverse_proxy_key`フックでカスタマイズできます。
+
 
 == Changelog ==
 
