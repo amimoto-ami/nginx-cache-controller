@@ -33,7 +33,7 @@ function __construct()
 
 public function nonce_life($life)
 {
-    $expires = get_option("nginxchampuru-cache_expires");
+    $expires = get_option("nginxchampuru-cache_expires", array($life));
     $max = max(array_values($expires));
     if ($max > $life) {
         return $max;

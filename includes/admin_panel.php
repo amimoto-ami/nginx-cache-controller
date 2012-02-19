@@ -92,6 +92,8 @@ if (!is_array($expires)) {
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e("Save", "nginxchampuru"); ?>"  /></p>
 </form>
 
+<div style="text-align:right;"><a href="http://ninjax.cc/"><img src="<?php echo $nginxchampuru->get_plugin_url(); ?>/img/ninjax.png"></a></div>
+
 </div><!-- #ninjax-expirescontrol -->
 
 <script type="text/javascript">
