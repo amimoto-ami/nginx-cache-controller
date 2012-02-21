@@ -27,7 +27,7 @@ function __construct()
         array(&$this, 'wp_ajax_nginx_get_commenter')
     );
     add_filter("nocache_headers", array(&$this, "nocache_headers"));
-    add_action("template_redirect", array(&$this, "template_redirect"));
+    add_action("template_redirect", array(&$this, "template_redirect"), 9999);
     add_filter("nonce_life", array(&$this, "nonce_life"));
 }
 
