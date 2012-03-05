@@ -72,6 +72,13 @@ Setting the key for the reverse cache proxy.
 
 * You can customize proxy_cache_key with `nginxchampuru_get_reverse_proxy_key` hook.
 
+
+== Screenshots ==
+
+1. Admin Panel
+2. Adminbar
+
+
 == Changelog ==
 
 = 1.0.0 =
