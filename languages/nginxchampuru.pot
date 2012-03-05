@@ -1,0 +1,121 @@
+# Copyright (C) 2010 Nginx Cache Controller
+# This file is distributed under the same license as the Nginx Cache Controller package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Nginx Cache Controller 1.0.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/nginx-champuru\n"
+"POT-Creation-Date: 2012-03-05 18:54:24+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: includes/admin.class.php:12
+msgid "Home"
+msgstr ""
+
+#: includes/admin.class.php:13
+msgid "Archives"
+msgstr ""
+
+#: includes/admin.class.php:14
+msgid "Singular"
+msgstr ""
+
+#: includes/admin.class.php:15
+msgid "Other"
+msgstr ""
+
+#: includes/admin.class.php:18
+msgid "None"
+msgstr ""
+
+#: includes/admin.class.php:19
+msgid "Flush All Caches."
+msgstr ""
+
+#: includes/admin.class.php:20
+msgid ""
+"Flush all caches except the ones of the current page and single post / page."
+msgstr ""
+
+#: includes/admin.class.php:21
+msgid "Flush current page only."
+msgstr ""
+
+#: includes/admin.class.php:174
+msgid "Flush This Page Cache"
+msgstr ""
+
+#: includes/admin.class.php:183 includes/admin_panel.php:5
+msgid "Flush All Caches"
+msgstr ""
+
+#: includes/admin_panel.php:5
+msgid "Cache Settings"
+msgstr ""
+
+#: includes/admin_panel.php:9
+msgid "Saved."
+msgstr ""
+
+#: includes/admin_panel.php:12
+msgid "Cache Expire"
+msgstr ""
+
+#: includes/admin_panel.php:43
+msgid "Settings for Flush Cache"
+msgstr ""
+
+#: includes/admin_panel.php:47
+msgid "Enable Flush Cache"
+msgstr ""
+
+#: includes/admin_panel.php:54
+msgid "Nginx Reverse Proxy Settings"
+msgstr ""
+
+#: includes/admin_panel.php:58
+msgid "Cache Directory"
+msgstr ""
+
+#: includes/admin_panel.php:67
+msgid "Cache Levels"
+msgstr ""
+
+#: includes/admin_panel.php:77
+msgid "Auto-Flush Hooks"
+msgstr ""
+
+#: includes/admin_panel.php:81
+msgid "On Publish"
+msgstr ""
+
+#: includes/admin_panel.php:85
+msgid "On Comment Posted"
+msgstr ""
+
+#: includes/admin_panel.php:92
+msgid "Save"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Nginx Cache Controller"
+msgstr ""
+
+#. #-#-#-#-#  nginxchampuru.pot (Nginx Cache Controller 1.0.0)  #-#-#-#-#
+#. Plugin URI of the plugin/theme
+#. #-#-#-#-#  nginxchampuru.pot (Nginx Cache Controller 1.0.0)  #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid "http://ninjax.cc/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Plugin for Nginx Reverse Proxy"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Ninjax Team (Takayuki Miyauchi)"
+msgstr ""

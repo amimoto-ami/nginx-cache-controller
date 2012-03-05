@@ -8,19 +8,6 @@ private $methods = array();
 
 function __construct()
 {
-    $this->default_cache_params = array(
-        'is_home'     => __("Home", "nginxchampuru"),
-        'is_archive'  => __("Archives", "nginxchampuru"),
-        'is_singular' => __("Singular", "nginxchampuru"),
-        'other'       => __("Other", "nginxchampuru"),
-    );
-    $this->methods = array(
-        'none' => __('None', 'nginxchampuru'),
-        'all' => __('Flush All Caches.', 'nginxchampuru'),
-        'almost' => __('Flush current page and non-article pages.', 'nginxchampuru'),
-        'single' => __('Flush current page only.', 'nginxchampuru'),
-    );
-
     add_action("admin_bar_menu", array(&$this, "admin_bar_menu"), 9999);
     add_action("admin_menu", array(&$this, "admin_menu"));
 }
@@ -97,6 +84,20 @@ private function get_modes_select($name)
 public function admin_menu()
 {
     global $nginxchampuru;
+
+    $this->default_cache_params = array(
+        'is_home'     => __("Home", "nginxchampuru"),
+        'is_archive'  => __("Archives", "nginxchampuru"),
+        'is_singular' => __("Singular", "nginxchampuru"),
+        'other'       => __("Other", "nginxchampuru"),
+    );
+
+    $this->methods = array(
+        'none' => __('None', 'nginxchampuru'),
+        'all' => __('Flush All Caches.', 'nginxchampuru'),
+        'almost' => __('Flush all caches except the ones of the current page and single post / page.', 'nginxchampuru'),
+        'single' => __('Flush current page only.', 'nginxchampuru'),
+    );
 
     $hook = add_menu_page(
         "Nginx Cache",

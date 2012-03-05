@@ -1,29 +1,42 @@
 === Nginx Champuru ===
 Contributors: miyauchi
-Donate link: http://firegoby.theta.ne.jp/
+Donate link: http://ninjax.cc/
 Tags: nginx, reverse proxy, cache 
-Requires at least: 3.2
+Requires at least: 3.3
 Tested up to: 3.3
-Stable tag: 0.5.0
+Stable tag: 1.1.0
 
-Fix some cache problems on proxy server.
+Provides some functions of controlling Nginx proxy server cache.
 
 == Description ==
 
-Fix some cache problems on proxy server.
+This plugin provides some functions of controlling Nginx proxy server cache.
 
-* jQuery required.
+= Security
 
-[This plugin maintained on GitHub.](https://github.com/miya0001/nginx-champuru)
+* Making comment authors' information ajaxed to prevent the information from caching.
+* Send no-cache header on password protected posts to prevent the posts from caching.
+* When a scheduled post is published, it will delete the cache through Ajax.
 
-= Some features: =
+= Controlling cache
 
-* Display author, email and url by ajax on comment form.
-* json data for ajax send no-cache header.
-* send no-cache header on password protected posts.
+* Sending X-ACCEL-EXPIRES, you can specify the available period of the cache.
+* When you save your post and someone post comments, the cache is deleted automatically.
+* Add a menu on the admin bar to delete the cache.
 
-= Contributors =
+= Memo
 
+* Gets comment poster's IP address by HTTP_X_FORWARDED_FOR header.
+* Fixes the issue that the permanent link setting includes index.php.
+* When the cache's expiration period is more than 86400 sec, change the value of wp_verify_nonce() same as the period.
+
+= Translator =
+* English(en) - [JOTAKI Taisuke](https://twitter.com/#!/tekapo)
+* Japanese(Ja) - [JOTAKI Taisuke](https://twitter.com/#!/tekapo)
+
+= Contributor =
+
+* [Ninjax Team](http://ninjax.cc/) 
 * [Takayuki Miyauchi](http://firegoby.theta.ne.jp/)
 
 == Installation ==
@@ -32,7 +45,39 @@ Fix some cache problems on proxy server.
 * It installs it in `wp-content/plugins`.
 * The plug-in is made effective.
 
+Example of Nginx settings:
+
+Allow X-ACCEL-EXPIRES for fastcgi.
+
+`   location ~ \.php$ {
+        include        /etc/nginx/fastcgi_params;
+        fastcgi_pass   unix:/tmp/php-fpm.sock;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $vhost_root/$fastcgi_script_name;
+        fastcgi_pass_header "X-Accel-Redirect";
+        fastcgi_pass_header "X-Accel-Expires";
+    }`
+
+Setting cache directory for reverse proxy.
+
+`proxy_cache_path  /var/cache/nginx levels=1:2 keys_zone=czone:4m max_size=50m inactive=120m;`
+
+* The default path is /var/cache/nginx. 
+* The default value of levels is 1:2.
+* You can change the cache path at the admin panel.
+
+Setting the key for the reverse cache proxy.
+
+`proxy_cache_key "$scheme://$host$request_uri"`
+
+* You can customize proxy_cache_key with `nginxchampuru_get_reverse_proxy_key` hook.
+
 == Changelog ==
+
+= 1.0.0 =
+* Rename to "Nginx Cache Controller"
+* Cache Controll
+* Auto-Flush Cache
 
 = 0.1.0 =
 * The first release.
@@ -44,6 +89,5 @@ The author must acknowledge the thing that the operation guarantee and the suppo
 
 == Contact ==
 
-* @miya0001 on twitter.
-* http://www.facebook.com/firegoby
 * https://github.com/miya0001/nginx-champuru
+

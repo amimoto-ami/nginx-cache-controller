@@ -2,9 +2,9 @@
 /*
 Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
-Plugin URI: http://firegoby.theta.ne.jp/wp/nginx-champuru
+Plugin URI: http://ninjax.cc/
 Description: Plugin for Nginx Reverse Proxy
-Version: 1.0.0
+Version: 1.1.0
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -89,17 +89,13 @@ public function add()
         return;
     }
     global $wpdb;
-    $wpdb->hide_errors();
-    @$wpdb->insert(
-        $this->table,
-        array(
-            'cache_key'  => $this->get_cache_key(),
-            'cache_id'   => $this->get_postid(),
-            'cache_type' => $this->get_post_type()
-        ),
-        array('%s', '%d', '%s')
+    $sql = $wpdb->prepare(
+        "replace into `{$this->table}` values(%s, %d, %s)",
+        $this->get_cache_key(),
+        $this->get_postid(),
+        $this->get_post_type()
     );
-    $wpdb->show_errors();
+    $wpdb->query($sql);
 }
 
 public function transientExec($callback)
