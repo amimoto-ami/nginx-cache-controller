@@ -1,4 +1,4 @@
-=== Nginx Champuru ===
+=== Nginx Cache Controller ===
 Contributors: miyauchi
 Donate link: http://ninjax.cc/
 Tags: nginx, reverse proxy, cache 
