@@ -58,8 +58,9 @@ if (!is_array($expires)) {
     <th><?php _e("Cache Directory", "nginxchampuru"); ?></th>
     <td><?php
         printf(
-            '<input type="text" name="cache_dir" value="%s" />',
-            esc_attr($nginxchampuru->get_cache_dir())
+            '<input type="text" name="cache_dir" value="%s" %s/>',
+            esc_attr($nginxchampuru->get_cache_dir()) ,
+            (defined('NCC_CACHE_DIR') && file_exists(NCC_CACHE_DIR) ? 'readonly="readonly" ' : '')
         );
     ?></td>
 </tr>

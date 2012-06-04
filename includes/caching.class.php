@@ -76,16 +76,22 @@ public function wp()
 
 public function wp_enqueue_scripts()
 {
-    if ((is_singular() && comments_open()) || $this->is_future_post()) {
+    if (is_singular() && comments_open()) {
         wp_enqueue_script('jquery');
         add_action(
             "wp_print_footer_scripts",
-            array(&$this, "wp_print_footer_scripts")
+            array(&$this, "wp_print_footer_scripts_admin_ajax")
+        );
+    } else if ($this->is_future_post()) {
+        wp_enqueue_script('jquery');
+        add_action(
+            "wp_print_footer_scripts",
+            array(&$this, "wp_print_footer_scripts_wp_clon")
         );
     }
 }
 
-public function wp_print_footer_scripts()
+public function wp_print_footer_scripts_admin_ajax()
 {
     $js =<<<EOL
 <script type="text/javascript">
@@ -99,6 +105,17 @@ public function wp_print_footer_scripts()
 </script>
 EOL;
     printf($js, admin_url("admin-ajax.php?action=".$this->q));
+}
+
+public function wp_print_footer_scripts_wp_clon(){
+    $js =<<<EOL
+<script type="text/javascript">
+(function($){
+    $.get("%s");
+})(jQuery);
+</script>
+EOL;
+    printf($js, site_url('wp-cron.php'));
 }
 
 public function wp_ajax_nginx_get_commenter()

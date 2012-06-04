@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: http://ninjax.cc/
 Description: Plugin for Nginx Reverse Proxy
-Version: 1.1.0
+Version: 1.1.1
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -38,6 +38,9 @@ function __construct()
 {
     global $wpdb;
     $this->table = $wpdb->prefix.'nginxchampuru';
+    if (defined('NCC_CACHE_DIR') && file_exists(NCC_CACHE_DIR)) {
+        $this->cache_dir = NCC_CACHE_DIR;
+    }
     add_action('plugins_loaded',    array(&$this, 'plugins_loaded'));
 }
 
@@ -123,10 +126,16 @@ private function flush_this()
     $url    = $params[0][0];
 
     $key    = $this->get_cache_key($url);
-    $cache  = $this->get_cache($key);
+    $caches = $this->get_cache($key);
 
-    if (is_file($cache)) {
-        unlink($cache);
+    if (is_array($caches)) {
+        foreach ($caches as $cache) {
+            if (is_file($cache)) {
+                unlink($cache);
+            }
+        }
+    } else if (is_file($caches)) {
+        unlink($caches);
     }
 
     global $wpdb;
