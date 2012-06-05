@@ -88,6 +88,16 @@ if (!is_array($expires)) {
 </tr>
 </table>
 
+
+<h4><?php _e("Add Last modified", "nginxchampuru"); ?></h4>
+
+<table class="form-table">
+<tr>
+    <th><?php _e("Add Last modified", "nginxchampuru"); ?></th>
+    <td><?php $this->add_last_modified(); ?></td>
+</tr>
+</table>
+
 </div><!-- #enable-flush -->
 
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e("Save", "nginxchampuru"); ?>"  /></p>

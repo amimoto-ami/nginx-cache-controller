@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: ja\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/nginx-champuru\n"
 "POT-Creation-Date: 2012-03-05 18:54:24+00:00\n"
-"PO-Revision-Date: 2012-02-28 20:59+0900\n"
-"Last-Translator: JOTAKI, Taisuke <jotaki@digitalcube.jp>\n"
+"PO-Revision-Date: 2012-06-05 10:48+0900\n"
+"Last-Translator: wokamoto <wokamoto1973@gmail.com>\n"
 "Language-Team: \n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -38,8 +38,7 @@ msgid "Flush All Caches."
 msgstr "すべてのキャッシュを削除。"
 
 #: includes/admin.class.php:20
-msgid ""
-"Flush all caches except the ones of the current page and single post / page."
+msgid "Flush all caches except the ones of the current page and single post / page."
 msgstr "表示中のページと単独投稿記事と単独固定ページ以外のキャッシュを削除。"
 
 #: includes/admin.class.php:21
@@ -50,7 +49,8 @@ msgstr "現在のページのキャッシュを削除"
 msgid "Flush This Page Cache"
 msgstr "このページのキャッシュを削除"
 
-#: includes/admin.class.php:183 includes/admin_panel.php:5
+#: includes/admin.class.php:183
+#: includes/admin_panel.php:5
 msgid "Flush All Caches"
 msgstr "すべてのキャッシュを削除"
 
@@ -98,7 +98,12 @@ msgstr "投稿公開時"
 msgid "On Comment Posted"
 msgstr "コメント投稿時"
 
-#: includes/admin_panel.php:92
+#: includes/admin_panel.php:92,
+#: 96
+msgid "Add Last modified"
+msgstr "メタタグ &quot;Last Modified&quot; を追加"
+
+#: includes/admin_panel.php:103
 msgid "Save"
 msgstr "保存"
 
@@ -121,3 +126,4 @@ msgstr "Nginxリバースプロキシを使用するためのプラグイン"
 #. Author of the plugin/theme
 msgid "Ninjax Team (Takayuki Miyauchi)"
 msgstr ""
+

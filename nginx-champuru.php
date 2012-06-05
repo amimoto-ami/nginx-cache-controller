@@ -49,6 +49,11 @@ public function is_enable_flush()
     return get_option("nginxchampuru-enable_flush", 0);
 }
 
+public function add_last_modified()
+{
+    return $this->is_enable_flush() && get_option("nginxchampuru-add_last_modified", 0);
+}
+
 public function get_cache_levels()
 {
     return get_option("nginxchampuru-cache_levels", $this->cache_levels);

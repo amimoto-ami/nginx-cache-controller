@@ -3,8 +3,8 @@ Contributors: miyauchi
 Donate link: http://ninjax.cc/
 Tags: nginx, reverse proxy, cache 
 Requires at least: 3.3
-Tested up to: 3.3
-Stable tag: 1.0.0
+Tested up to: 3.3.2
+Stable tag: 1.1.1
 
 Nginxのリバースプロキシを使用する際に必要な機能を提供します。
 

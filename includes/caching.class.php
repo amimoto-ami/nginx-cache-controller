@@ -3,6 +3,7 @@
 class NginxChampuru_Caching {
 
 private $q = "nginx_get_commenter";
+private $last_modified;
 
 function __construct()
 {
@@ -29,6 +30,12 @@ function __construct()
     add_filter("nocache_headers", array(&$this, "nocache_headers"));
     add_action("template_redirect", array(&$this, "template_redirect"), 9999);
     add_filter("nonce_life", array(&$this, "nonce_life"));
+
+    if (!is_admin()) {
+        $this->last_modified = gmdate('D, d M Y H:i:s', time()) . ' GMT';
+        add_action('template_redirect', array(&$this, 'send_http_header_last_modified'));
+        add_action('wp_head',  array(&$this, 'last_modified_meta_tag'));
+    }
 }
 
 public function nonce_life($life)
@@ -116,6 +123,26 @@ public function wp_print_footer_scripts_wp_clon(){
 </script>
 EOL;
     printf($js, site_url('wp-cron.php'));
+}
+
+private function add_last_modified() {
+    global $nginxchampuru;
+    return (function_exists('is_user_logged_in') && !is_user_logged_in() && $nginxchampuru->add_last_modified());
+}
+
+public function send_http_header_last_modified()
+{
+    if ($this->add_last_modified()) {
+		header("Last-Modified: {$this->last_modified}");
+    }
+}
+
+public function last_modified_meta_tag()
+{
+    if (!is_feed() && $this->add_last_modified()) {
+        $last_modified_meta_tag = "<meta http-equiv=\"Last-Modified\" content=\"{$this->last_modified}\" />\n";
+        echo $last_modified_meta_tag;
+    }
 }
 
 public function wp_ajax_nginx_get_commenter()

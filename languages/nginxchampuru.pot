@@ -97,7 +97,11 @@ msgstr ""
 msgid "On Comment Posted"
 msgstr ""
 
-#: includes/admin_panel.php:92
+#: includes/admin_panel.php:92, 96
+msgid "Add Last modified"
+msgstr ""
+
+#: includes/admin_panel.php:103
 msgid "Save"
 msgstr ""
 

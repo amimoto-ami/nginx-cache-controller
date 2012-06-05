@@ -81,6 +81,52 @@ private function get_modes_select($name)
     echo "</ul>";
 }
 
+private function add_last_modified()
+{
+    global $nginxchampuru;
+    $enabled = $nginxchampuru->add_last_modified();
+    $checked = '<input type="%s" name="%s" id="%s" value="%d" checked="checked" /> %s';
+    $notchecked = '<input type="%s" name="%s" id="%s" value="%d" /> %s';
+    $list = array();
+    if ($enabled) {
+        $list[] = sprintf(
+            $checked,
+            "radio",
+            "add_last_modified",
+            "add_last_modified-yes",
+            "1",
+            "<label for=\"add_last_modified-yes\">Yes</label>"
+        );
+        $list[] = sprintf(
+            $notchecked,
+            "radio",
+            "add_last_modified",
+            "add_last_modified-no",
+            "0",
+            "<label for=\"add_last_modified-no\">No</label>"
+        );
+    } else {
+        $list[] = sprintf(
+            $notchecked,
+            "radio",
+            "add_last_modified",
+            "add_last_modified-yes",
+            "1",
+            "<label for=\"add_last_modified-yes\">Yes</label>"
+        );
+        $list[] = sprintf(
+            $checked,
+            "radio",
+            "add_last_modified",
+            "add_last_modified-no",
+            "0",
+            "<label for=\"add_last_modified-no\">No</label>"
+        );
+    }
+
+    echo "<ul><li>".join("</li><li>", $list)."</li></ul>";
+}
+
 public function admin_menu()
 {
     global $nginxchampuru;
@@ -131,6 +177,7 @@ public function admin_head()
     update_option("nginxchampuru-cache_levels", $_POST['cache_levels']);
     update_option("nginxchampuru-publish", esc_html($_POST["publish"]));
     update_option("nginxchampuru-comment", esc_html($_POST["comment"]));
+    update_option("nginxchampuru-add_last_modified", intval($_POST['add_last_modified']));
     wp_redirect(admin_url("admin.php?page=nginx-champuru&message=true"));
 }
 
