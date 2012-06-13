@@ -1,10 +1,10 @@
 === Nginx Cache Controller ===
 Contributors: miyauchi, wokamoto
 Donate link: http://ninjax.cc/
-Tags: nginx, reverse proxy, cache 
+Tags: nginx, reverse proxy, cache
 Requires at least: 3.3
 Tested up to: 3.3.2
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 
 Provides some functions of controlling Nginx proxy server cache.
 
