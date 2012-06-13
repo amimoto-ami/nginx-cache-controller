@@ -174,13 +174,18 @@ private function flush_cache()
     $keys = $wpdb->get_col($sql);
     foreach ($keys as $key) {
         $cache = $this->get_cache($key);
-        if (is_file($cache)) {
-            unlink($cache);
+        if (is_array($cache)) {
+            foreach ($cache as $c) {
+                if (is_file($c)) {
+                    unlink($c);
+                }
+            }
         }
     }
 
-    $sql = "delete from `$this->table` where cache_key in ('".join("','", $keys)."')";
-    $wpdb->query($sql);
+    // ほとぼりが冷めた頃に削除
+    // $sql = "delete from `$this->table` where cache_key in ('".join("','", $keys)."')";
+    // $wpdb->query($sql);
 }
 
 public function activation()
