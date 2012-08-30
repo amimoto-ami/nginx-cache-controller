@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: http://ninjax.cc/
 Description: Plugin for Nginx Reverse Proxy
-Version: 1.1.3
+Version: 1.1.4
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -129,10 +129,10 @@ private function flush_this()
 {
     $params = func_get_args();
     $url    = $params[0][0];
+    do_action('nginxchampuru_flush_cache', $url);
 
     $key    = $this->get_cache_key($url);
     $caches = $this->get_cache($key, $url);
-
     foreach ((array)$caches as $cache) {
         if (is_file($cache)) {
             unlink($cache);
@@ -154,15 +154,15 @@ private function flush_cache()
 
     global $wpdb;
     if ($mode === "all") {
-        $sql = "select `cache_key` from `$this->table`";
+        $sql = "select `cache_key`, `cache_id` from `$this->table`";
     } elseif ($mode === "single" && intval($id)) {
         $sql = $wpdb->prepare(
-            "select `cache_key` from `$this->table` where cache_id=%d",
+            "select `cache_key`, `cache_id` from `$this->table` where cache_id=%d",
             intval($id)
         );
     } elseif ($mode === 'almost' && intval($id)) {
         $sql = $wpdb->prepare(
-            "select `cache_key` from `$this->table`
+            "select `cache_key`, `cache_id` from `$this->table`
                 where cache_id=%d or
                 cache_type in ('is_home', 'is_archive', 'other')",
             intval($id)
@@ -171,14 +171,14 @@ private function flush_cache()
         return;
     }
 
-    $keys = $wpdb->get_col($sql);
+    $keys = $wpdb->get_results($sql);
     foreach ($keys as $key) {
-        $cache = $this->get_cache($key);
-        if (is_array($cache)) {
-            foreach ($cache as $c) {
-                if (is_file($c)) {
-                    unlink($c);
-                }
+        $url = get_permalink($key->cache_id);
+        do_action('nginxchampuru_flush_cache', $url);
+        $caches = $this->get_cache($key->cache_key, $url);
+        foreach ((array)$caches as $cache) {
+            if (is_file($cache)) {
+                unlink($cache);
             }
         }
     }
