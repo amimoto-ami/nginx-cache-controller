@@ -9,6 +9,9 @@
 <div id="message" class="updated"><p><?php _e("Saved.", "nginxchampuru"); ?></p></div>
 <?php endif; ?>
 
+
+<p style="margin:2em 0;"><a href="<?php _e('http://wpbooster.net/', 'nginxchampuru'); ?>"><img src="<?php echo NGINX_CACHE_CONTROLER_URL; ?>/img/booster.jpg" width="728" height="90" /></a></p>
+
 <h3><?php _e("Cache Expire", "nginxchampuru"); ?></h3>
 
 <form action="admin.php?page=nginx-champuru" method="post">

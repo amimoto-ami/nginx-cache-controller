@@ -10,6 +10,17 @@ function __construct()
 {
     add_action("admin_bar_menu", array(&$this, "admin_bar_menu"), 9999);
     add_action("admin_menu", array(&$this, "admin_menu"));
+    add_filter('plugin_row_meta',   array(&$this, 'plugin_row_meta'), 10, 2);
+}
+
+public function plugin_row_meta($links, $file)
+{
+    if (NGINX_CACHE_CONTROLER_BASE_NAME === $file) {
+        $link = '<a href="%s">%s</a>';
+        $url = __("http://wpbooster.net/", 'nginxchampuru');
+        $links[] = sprintf($link, esc_url($url), __("Make WordPress Site Load Faster", "nginxchampuru"));
+    }
+    return $links;
 }
 
 private function is_enable_flush()

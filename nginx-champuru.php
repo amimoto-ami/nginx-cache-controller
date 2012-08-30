@@ -20,6 +20,10 @@ new NginxChampuru_FlushCache();
 require_once(dirname(__FILE__)."/includes/admin.class.php");
 new NginxChampuru_Admin();
 
+
+define("NGINX_CACHE_CONTROLER_URL", plugins_url('', __FILE__));
+define("NGINX_CACHE_CONTROLER_BASE_NAME", plugin_basename(__FILE__));
+
 class NginxChampuru {
 
 private $table;
