@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: http://ninjax.cc/
 Description: Plugin for Nginx Reverse Proxy
-Version: 1.1.4
+Version: 1.1.5
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -26,11 +26,16 @@ define("NGINX_CACHE_CONTROLER_BASE_NAME", plugin_basename(__FILE__));
 
 class NginxChampuru {
 
+private $version;
+private $db_version;
+
 private $table;
 private $expire = 86400;
 private $cache_dir = "/var/cache/nginx";
 private $cache_levels = "1:2";
 private $transient_timeout = 60;
+
+private $flush_urls = array();
 
 // hook and flush mode
 private $method =array(
@@ -46,6 +51,10 @@ function __construct()
         $this->cache_dir = NCC_CACHE_DIR;
     }
     add_action('plugins_loaded',    array(&$this, 'plugins_loaded'));
+
+    $data = get_file_data( __FILE__, array( 'version' => 'Version' ) );
+    $this->version = $data['version'];
+    $this->db_version = get_option('nginxchampuru-db_version', 0);
 }
 
 public function is_enable_flush()
@@ -93,6 +102,9 @@ public function plugins_loaded()
         false,
         dirname(plugin_basename(__FILE__)).'/languages'
     );
+
+    if ( version_compare($this->version, $this->db_version) )
+        $this->db_version = $this->alter_table($this->version, $this->db_version);
 }
 
 public function add()
@@ -102,10 +114,11 @@ public function add()
     }
     global $wpdb;
     $sql = $wpdb->prepare(
-        "replace into `{$this->table}` values(%s, %d, %s)",
+        "replace into `{$this->table}` values(%s, %d, %s, %s)",
         $this->get_cache_key(),
         $this->get_postid(),
-        $this->get_post_type()
+        $this->get_post_type(),
+        $this->get_the_url()
     );
     $wpdb->query($sql);
 }
@@ -133,6 +146,10 @@ private function flush_this()
 {
     $params = func_get_args();
     $url    = $params[0][0];
+    if ( empty($url) || array_search($url, $this->flush_urls) === FALSE )
+        return;
+
+    $this->flush_urls[] = $url;
     do_action('nginxchampuru_flush_cache', $url);
 
     $key    = $this->get_cache_key($url);
@@ -143,11 +160,10 @@ private function flush_this()
         }
     }
 
-    global $wpdb;
-    $sql = $wpdb->prepare(
-        "delete from `$this->table` where cache_key=%s",
-        $key
-    );
+	// ほとぼりが冷めた頃に消す
+    // global $wpdb;
+    // $sql = $wpdb->prepare("delete from `$this->table` where cache_key=%s", $key);
+    // $wpdb->query($sql);
 }
 
 private function flush_cache()
@@ -158,15 +174,15 @@ private function flush_cache()
 
     global $wpdb;
     if ($mode === "all") {
-        $sql = "select `cache_key`, `cache_id` from `$this->table`";
+        $sql = "select distinct `cache_key`, `cache_id`, `cache_type`, ifnull(`cache_url`,\"\") as `cache_url` from `$this->table`";
     } elseif ($mode === "single" && intval($id)) {
         $sql = $wpdb->prepare(
-            "select `cache_key`, `cache_id` from `$this->table` where cache_id=%d",
+            "select distinct `cache_key`, `cache_id`, `cache_type`, ifnull(`cache_url`,\"\") as `cache_url` from `$this->table` where cache_id=%d",
             intval($id)
         );
     } elseif ($mode === 'almost' && intval($id)) {
         $sql = $wpdb->prepare(
-            "select `cache_key`, `cache_id` from `$this->table`
+            "select distinct `cache_key`, `cache_id`, `cache_type`, ifnull(`cache_url`,\"\") as `cache_url` from `$this->table`
                 where cache_id=%d or
                 cache_type in ('is_home', 'is_archive', 'other')",
             intval($id)
@@ -176,19 +192,36 @@ private function flush_cache()
     }
 
     $keys = $wpdb->get_results($sql);
+    $urls = array();
+    $purge_keys = array();
     foreach ($keys as $key) {
-        $url = get_permalink($key->cache_id);
-        do_action('nginxchampuru_flush_cache', $url);
+        $url = $key->cache_url;
+        if ( empty($url) && $key->cache_type === 'is_singular' ) {
+            $url = get_permalink($key->cache_id);
+            $sql = $wpdb->prepare(
+                "replace into `{$this->table}` values(%s, %d, %s, %s)",
+                $key->cache_key,
+                $key->cache_id,
+                $key->cache_type,
+                $url
+            );
+            $wpdb->query($sql);
+        }
+        if ( !empty($url) && array_search($url, $this->flush_urls) === FALSE ) {
+            $this->flush_urls[] = $url;
+            do_action('nginxchampuru_flush_cache', $url);
+        }
         $caches = $this->get_cache($key->cache_key, $url);
         foreach ((array)$caches as $cache) {
             if (is_file($cache)) {
                 unlink($cache);
             }
         }
+        $purge_keys[] = $key->cache_key;
     }
 
-    // ほとぼりが冷めた頃に削除
-    // $sql = "delete from `$this->table` where cache_key in ('".join("','", $keys)."')";
+	// ほとぼりが冷めた頃に消す
+    // $sql = "delete from `$this->table` where cache_key in ('".join("','", $purge_keys)."')";
     // $wpdb->query($sql);
 }
 
@@ -200,14 +233,35 @@ public function activation()
             `cache_key` varchar(32) not null,
             `cache_id` bigint(20) unsigned default 0 not null,
             `cache_type` varchar(11) not null,
+            `cache_url` varchar(256),
             primary key (`cache_key`),
             key `cache_id` (`cache_id`),
             key `cache_type`(`cache_type`)
             );";
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
+	    update_option('nginxchampuru-db_version', $this->version);
     }
 }
+
+private function alter_table($version, $db_version)
+{
+    global $wpdb;
+    if ($wpdb->get_var("show tables like '$this->table'") != $this->table) {
+    	$this->activation();
+    	return $version;
+    }
+
+    switch ($db_version) {
+        default:
+            $sql = "ALTER TABLE `{$this->table}` ADD COLUMN `cache_url` varchar(256);";
+            $wpdb->query($sql);
+            break;
+    }
+    update_option('nginxchampuru-db_version', $version);
+    return $version;
+}
+
 
 public function get_expire()
 {
