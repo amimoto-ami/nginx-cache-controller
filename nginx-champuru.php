@@ -37,6 +37,9 @@ private $transient_timeout = 60;
 
 private $flush_urls = array();
 
+const OPTION_NAME_DB_VERSION = 'nginxchampuru-db_version';
+const OPTION_NAME_CACHE_EXPIRES = 'nginxchampuru-cache_expires';
+
 // hook and flush mode
 private $method =array(
     'publish' => 'almost',
@@ -54,7 +57,7 @@ function __construct()
 
     $data = get_file_data( __FILE__, array( 'version' => 'Version' ) );
     $this->version = $data['version'];
-    $this->db_version = get_option('nginxchampuru-db_version', 0);
+    $this->db_version = get_option(self::OPTION_NAME_DB_VERSION, 0);
 }
 
 public function is_enable_flush()
@@ -240,7 +243,7 @@ public function activation()
             );";
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         dbDelta($sql);
-	    update_option('nginxchampuru-db_version', $this->version);
+	    update_option(self::OPTION_NAME_DB_VERSION, $this->version);
     }
 }
 
@@ -249,23 +252,26 @@ private function alter_table($version, $db_version)
     global $wpdb;
     if ($wpdb->get_var("show tables like '$this->table'") != $this->table) {
     	$this->activation();
-    	return $version;
+    	return get_option(self::OPTION_NAME_DB_VERSION, $version);
     }
 
-    switch ($db_version) {
-        default:
+    switch (true) {
+        case version_compare('1.1.5', $db_version):
             $sql = "ALTER TABLE `{$this->table}` ADD COLUMN `cache_url` varchar(256);";
             $wpdb->query($sql);
+            update_option(self::OPTION_NAME_DB_VERSION, $version);
+            break;
+        default:
+            update_option(self::OPTION_NAME_DB_VERSION, $version);
             break;
     }
-    update_option('nginxchampuru-db_version', $version);
     return $version;
 }
 
 
 public function get_expire()
 {
-    $expires = get_option("nginxchampuru-cache_expires");
+    $expires = get_option(self::OPTION_NAME_CACHE_EXPIRES);
     $par = $this->get_post_type();
     if (isset($expires[$par]) && strlen($expires[$par])) {
         return $expires[$par];
