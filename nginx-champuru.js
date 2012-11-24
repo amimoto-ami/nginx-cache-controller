@@ -1,0 +1,1 @@
+(function(a){a.getJSON("/nginx-champuru.json",function(b){a("#author").val(b.comment_author);a("#email").val(b.comment_author_email);a("#url").val(b.comment_author_url)})})(jQuery);
