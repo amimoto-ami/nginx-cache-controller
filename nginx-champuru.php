@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: http://ninjax.cc/
 Description: Plugin for Nginx Reverse Proxy
-Version: 1.1.5
+Version: 1.2.0
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -12,6 +12,7 @@ Text Domain: nginxchampuru
 
 $nginxchampuru = new NginxChampuru();
 register_activation_hook (__FILE__, array($nginxchampuru, 'activation'));
+register_deactivation_hook (__FILE__, array($nginxchampuru, 'deactivation'));
 
 require_once(dirname(__FILE__)."/includes/caching.class.php");
 new NginxChampuru_Caching();
@@ -117,7 +118,7 @@ public function add()
     }
     global $wpdb;
     $sql = $wpdb->prepare(
-        "replace into `{$this->table}` values(%s, %d, %s, %s)",
+        "replace into `{$this->table}` values(%s, %d, %s, %s, null)",
         $this->get_cache_key(),
         $this->get_postid(),
         $this->get_post_type(),
@@ -163,10 +164,9 @@ private function flush_this()
         }
     }
 
-	// ほとぼりが冷めた頃に消す
-    // global $wpdb;
-    // $sql = $wpdb->prepare("delete from `$this->table` where cache_key=%s", $key);
-    // $wpdb->query($sql);
+    global $wpdb;
+    $sql = $wpdb->prepare("delete from `$this->table` where cache_key=%s", $key);
+    $wpdb->query($sql);
 }
 
 private function flush_cache()
@@ -175,19 +175,25 @@ private function flush_cache()
     $mode   = $params[0][0];
     $id     = $params[0][1];
 
+    $expire_limit = date('Y-m-d H:i:s', time() - $this->get_max_expire());
+
     global $wpdb;
     if ($mode === "all") {
-        $sql = "select distinct `cache_key`, `cache_id`, `cache_type`, ifnull(`cache_url`,\"\") as `cache_url` from `$this->table`";
+        $sql = $wpdb->prepare("select distinct `cache_key`, `cache_id`, `cache_type`, ifnull(`cache_url`,\"\") as `cache_url` from `$this->table` where `cache_saved` > %s",
+            $expire_limit
+        );
     } elseif ($mode === "single" && intval($id)) {
         $sql = $wpdb->prepare(
-            "select distinct `cache_key`, `cache_id`, `cache_type`, ifnull(`cache_url`,\"\") as `cache_url` from `$this->table` where cache_id=%d",
-            intval($id)
+            "select distinct `cache_key`, `cache_id`, `cache_type`, ifnull(`cache_url`,\"\") as `cache_url` from `$this->table` where `cache_id`=%d and cache_saved > %s",
+            intval($id),
+            $expire_limit
         );
     } elseif ($mode === 'almost' && intval($id)) {
         $sql = $wpdb->prepare(
             "select distinct `cache_key`, `cache_id`, `cache_type`, ifnull(`cache_url`,\"\") as `cache_url` from `$this->table`
-                where cache_id=%d or
-                cache_type in ('is_home', 'is_archive', 'other')",
+                where `cache_saved`> %s and (cache_id=%d or
+                cache_type in ('is_home', 'is_archive', 'other'))",
+            $expire_limit,
             intval($id)
         );
     } else {
@@ -223,9 +229,17 @@ private function flush_cache()
         $purge_keys[] = $key->cache_key;
     }
 
-	// ほとぼりが冷めた頃に消す
-    // $sql = "delete from `$this->table` where cache_key in ('".join("','", $purge_keys)."')";
-    // $wpdb->query($sql);
+    $sql = "delete from `$this->table` where cache_key in ('".join("','", $purge_keys)."')";
+    $wpdb->query($sql);
+}
+
+public function deactivation()
+{
+    global $wpdb;
+    if ($wpdb->get_var("show tables like '$this->table'") != $this->table) {
+        $sql = "drop table `{$this->table}`";
+        $wpdb->query($sql);
+    }
 }
 
 public function activation()
@@ -237,8 +251,11 @@ public function activation()
             `cache_id` bigint(20) unsigned default 0 not null,
             `cache_type` varchar(11) not null,
             `cache_url` varchar(256),
+            `cache_saved` timestamp default current_timestamp not null,
             primary key (`cache_key`),
             key `cache_id` (`cache_id`),
+            key `cache_saved`(`cache_saved`),
+            key `cache_url`(`cache_url`),
             key `cache_type`(`cache_type`)
             );";
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -256,11 +273,17 @@ private function alter_table($version, $db_version)
     }
 
     switch (true) {
-        case version_compare('1.1.5', $db_version):
+        case (version_compare('1.1.5', $db_version) > 0):
             $sql = "ALTER TABLE `{$this->table}` ADD COLUMN `cache_url` varchar(256);";
             $wpdb->query($sql);
-            update_option(self::OPTION_NAME_DB_VERSION, $version);
-            break;
+            //update_option(self::OPTION_NAME_DB_VERSION, $version);
+        case (version_compare('1.2.0', $db_version) > 0):
+            $sql = "ALTER TABLE `{$this->table}` ADD COLUMN `cache_saved` timestamp default current_timestamp not null;";
+            $wpdb->query($sql);
+            $sql = "ALTER TABLE `{$this->table}` ADD INDEX `cache_saved`(`cache_saved`);";
+            $wpdb->query($sql);
+            $sql = "ALTER TABLE `{$this->table}` ADD INDEX `cache_url`(`cache_url`);";
+            $wpdb->query($sql);
         default:
             update_option(self::OPTION_NAME_DB_VERSION, $version);
             break;
@@ -268,6 +291,15 @@ private function alter_table($version, $db_version)
     return $version;
 }
 
+private function get_max_expire()
+{
+    $expires = get_option(self::OPTION_NAME_CACHE_EXPIRES);
+    $max = max(array_values($expires));
+    if (!$max) {
+        $max = $this->get_default_expire();
+    }
+    return $max;
+}
 
 public function get_expire()
 {

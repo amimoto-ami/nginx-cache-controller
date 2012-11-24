@@ -57,3 +57,11 @@
     display: none;
 }
 
+.widget-container .fbcomments,
+.widget-container .fb_iframe_widget,
+.widget-container.fb_iframe_widget[style],
+.widget-container .fb_iframe_widget iframe[style],
+.widget-container .fbcomments iframe[style],
+.widget-container .fb_iframe_widget span{
+    width: 100%! important;
+}

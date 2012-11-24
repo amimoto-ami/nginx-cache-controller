@@ -106,6 +106,10 @@ if (!is_array($expires)) {
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e("Save", "nginxchampuru"); ?>"  /></p>
 </form>
 
+<div class="widget-container">
+<div class="fb-like-box" data-href="http://www.facebook.com/Ninjax.cc" data-width="1280" data-show-faces="true" data-stream="false" data-header="true"></div>
+</div>
+
 <div style="text-align:right;"><a href="http://ninjax.cc/"><img src="<?php echo $nginxchampuru->get_plugin_url(); ?>/img/ninjax.png"></a></div>
 
 </div><!-- #ninjax-expirescontrol -->
@@ -124,3 +128,11 @@ if (!is_array($expires)) {
 })(jQuery);
 </script>
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
