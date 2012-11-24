@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: http://ninjax.cc/
 Description: Plugin for Nginx Reverse Proxy
-Version: 1.2.0
+Version: 1.2.1
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -208,7 +208,7 @@ private function flush_cache()
         if ( empty($url) && $key->cache_type === 'is_singular' ) {
             $url = get_permalink($key->cache_id);
             $sql = $wpdb->prepare(
-                "replace into `{$this->table}` values(%s, %d, %s, %s)",
+                "replace into `{$this->table}` values(%s, %d, %s, %s, current_timestamp)",
                 $key->cache_key,
                 $key->cache_id,
                 $key->cache_type,
@@ -276,13 +276,14 @@ private function alter_table($version, $db_version)
         case (version_compare('1.1.5', $db_version) > 0):
             $sql = "ALTER TABLE `{$this->table}` ADD COLUMN `cache_url` varchar(256);";
             $wpdb->query($sql);
-            //update_option(self::OPTION_NAME_DB_VERSION, $version);
-        case (version_compare('1.2.0', $db_version) > 0):
+        case (version_compare('1.2.1', $db_version) > 0):
             $sql = "ALTER TABLE `{$this->table}` ADD COLUMN `cache_saved` timestamp default current_timestamp not null;";
             $wpdb->query($sql);
             $sql = "ALTER TABLE `{$this->table}` ADD INDEX `cache_saved`(`cache_saved`);";
             $wpdb->query($sql);
             $sql = "ALTER TABLE `{$this->table}` ADD INDEX `cache_url`(`cache_url`);";
+            $wpdb->query($sql);
+            $sql = "update `{$this->table}` set `cache_saved` = current_timestamp";
             $wpdb->query($sql);
         default:
             update_option(self::OPTION_NAME_DB_VERSION, $version);
