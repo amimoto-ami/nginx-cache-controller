@@ -9,8 +9,9 @@
 <div id="message" class="updated"><p><?php _e("Saved.", "nginxchampuru"); ?></p></div>
 <?php endif; ?>
 
-
+<?php if(!is_plugin_active('wpbooster-cdn-client/wpbooster-cdn-client.php')): ?>
 <p style="margin:2em 0;"><a href="<?php _e('http://wpbooster.net/', 'nginxchampuru'); ?>"><img src="<?php echo NGINX_CACHE_CONTROLER_URL; ?>/img/booster.jpg" width="728" height="90" /></a></p>
+<?php endif; ?>
 
 <h3><?php _e("Cache Expire", "nginxchampuru"); ?></h3>
 
