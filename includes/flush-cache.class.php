@@ -9,6 +9,7 @@ function __construct()
     add_action('wp_ajax_flushthis', array(&$this, 'wp_ajax_flushthis'));
     add_action("publish_future_post", array(&$this, "flush_by_post"));
     add_action("publish_post", array(&$this, "flush_by_post"));
+    add_action("publish_page", array(&$this, "flush_by_post"));
     add_action("comment_post", array(&$this, "flush_by_comment"));
     add_action("wp_set_comment_status", array(&$this, "flush_by_comment"));
 }

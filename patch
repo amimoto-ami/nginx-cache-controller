@@ -1,0 +1,36 @@
+diff --git includes/flush-cache.class.php includes/flush-cache.class.php
+index 9aa5352..1c2487f 100644
+--- includes/flush-cache.class.php
++++ includes/flush-cache.class.php
+@@ -9,6 +9,7 @@ function __construct()
+     add_action('wp_ajax_flushthis', array(&$this, 'wp_ajax_flushthis'));
+     add_action("publish_future_post", array(&$this, "flush_by_post"));
+     add_action("publish_post", array(&$this, "flush_by_post"));
++    add_action("publish_page", array(&$this, "flush_by_post"));
+     add_action("comment_post", array(&$this, "flush_by_comment"));
+     add_action("wp_set_comment_status", array(&$this, "flush_by_comment"));
+ }
+diff --git nginx-champuru.php nginx-champuru.php
+index 52f1672..6f1d498 100644
+--- nginx-champuru.php
++++ nginx-champuru.php
+@@ -209,18 +209,7 @@ private function flush_cache()
+     $purge_keys = array();
+     foreach ($keys as $key) {
+         $url = $key->cache_url;
+-        if ( empty($url) && $key->cache_type === 'is_singular' ) {
+-            $url = get_permalink($key->cache_id);
+-            $sql = $wpdb->prepare(
+-                "replace into `{$this->table}` values(%s, %d, %s, %s, current_timestamp)",
+-                $key->cache_key,
+-                $key->cache_id,
+-                $key->cache_type,
+-                $url
+-            );
+-            $wpdb->query($sql);
+-        }
+-        if ( !empty($url) ) {
++        if ($url) {
+             do_action('nginxchampuru_flush_cache', $url);
+         }
+         $caches = $this->get_cache($key->cache_key, $url);

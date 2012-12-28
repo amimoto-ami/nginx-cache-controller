@@ -209,18 +209,7 @@ private function flush_cache()
     $purge_keys = array();
     foreach ($keys as $key) {
         $url = $key->cache_url;
-        if ( empty($url) && $key->cache_type === 'is_singular' ) {
-            $url = get_permalink($key->cache_id);
-            $sql = $wpdb->prepare(
-                "replace into `{$this->table}` values(%s, %d, %s, %s, current_timestamp)",
-                $key->cache_key,
-                $key->cache_id,
-                $key->cache_type,
-                $url
-            );
-            $wpdb->query($sql);
-        }
-        if ( !empty($url) ) {
+        if ($url) {
             do_action('nginxchampuru_flush_cache', $url);
         }
         $caches = $this->get_cache($key->cache_key, $url);
