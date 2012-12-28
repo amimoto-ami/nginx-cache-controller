@@ -35,8 +35,6 @@ private $cache_dir = "/var/cache/nginx";
 private $cache_levels = "1:2";
 private $transient_timeout = 60;
 
-private $flush_urls = array();
-
 const OPTION_NAME_DB_VERSION = 'nginxchampuru-db_version';
 const OPTION_NAME_CACHE_EXPIRES = 'nginxchampuru-cache_expires';
 
@@ -149,11 +147,18 @@ private function flush_this()
 {
     $params = func_get_args();
     $url    = $params[0][0];
-    if ( empty($url) || array_search($url, $this->flush_urls) === FALSE )
+    if (empty($url)) {
         return;
+    }
 
-    $this->flush_urls[] = $url;
     do_action('nginxchampuru_flush_cache', $url);
+
+    // singular pages
+    $id = url_to_postid($url);
+    if ($id) {
+        $this->flush_cache(array('single', $id));
+        return;
+    }
 
     $key    = $this->get_cache_key($url);
     $caches = $this->get_cache($key, $url);
@@ -215,8 +220,7 @@ private function flush_cache()
             );
             $wpdb->query($sql);
         }
-        if ( !empty($url) && array_search($url, $this->flush_urls) === FALSE ) {
-            $this->flush_urls[] = $url;
+        if ( !empty($url) ) {
             do_action('nginxchampuru_flush_cache', $url);
         }
         $caches = $this->get_cache($key->cache_key, $url);
