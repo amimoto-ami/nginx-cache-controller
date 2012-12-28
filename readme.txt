@@ -2,9 +2,9 @@
 Contributors: miyauchi, wokamoto
 Donate link: http://ninjax.cc/
 Tags: nginx, reverse proxy, cache
-Requires at least: 3.3
+Requires at least: 3.4
 Tested up to: 3.5
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 
 Provides some functions of controlling Nginx proxy server cache.
 
