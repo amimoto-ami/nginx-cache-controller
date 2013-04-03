@@ -219,30 +219,47 @@ public function admin_bar_menu($bar)
         return;
     }
 
-    if (current_user_can("administrator")) {
-        $bar->add_menu(array(
-            "id"    => "nginxchampuru",
-            "title" => "Nginx Cache",
-            "href"  => false,
-        ));
-
-        if (!is_admin()) {
+    if (current_user_can("flush_cache_single") || current_user_can("flush_cache_all")) {
+        if (is_admin() && current_user_can('flush_cache_all')) {
             $bar->add_menu(array(
-                "parent" => "nginxchampuru",
-                "id"    => "flushcache",
-                "title" => __("Flush This Page Cache", "nginxchampuru"),
-                "href"  => $this->get_flushthis_url(),
-                "meta"  => false,
+                "id"    => "nginxchampuru",
+                "title" => "Nginx Cache",
+                "href"  => false,
             ));
+            if (current_user_can('flush_cache_all')) {
+                $bar->add_menu(array(
+                    "parent" => "nginxchampuru",
+                    "id"    => "clearcache",
+                    "title" => __("Flush All Caches", "nginxchampuru"),
+                    "href"  => $this->get_cacheclear_url(),
+                    "meta"  => false,
+                ));
+            }
+        } elseif (!is_admin()) {
+            $bar->add_menu(array(
+                "id"    => "nginxchampuru",
+                "title" => "Nginx Cache",
+                "href"  => false,
+            ));
+            if (current_user_can('flush_cache_all')) {
+                $bar->add_menu(array(
+                    "parent" => "nginxchampuru",
+                    "id"    => "clearcache",
+                    "title" => __("Flush All Caches", "nginxchampuru"),
+                    "href"  => $this->get_cacheclear_url(),
+                    "meta"  => false,
+                ));
+            }
+            if (current_user_can("flush_cache_single")) {
+                $bar->add_menu(array(
+                    "parent" => "nginxchampuru",
+                    "id"    => "flushcache",
+                    "title" => __("Flush This Page Cache", "nginxchampuru"),
+                    "href"  => $this->get_flushthis_url(),
+                    "meta"  => false,
+                ));
+            }
         }
-
-        $bar->add_menu(array(
-            "parent" => "nginxchampuru",
-            "id"    => "clearcache",
-            "title" => __("Flush All Caches", "nginxchampuru"),
-            "href"  => $this->get_cacheclear_url(),
-            "meta"  => false,
-        ));
     }
 }
 

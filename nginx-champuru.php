@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: http://ninjax.cc/
 Description: Plugin for Nginx Reverse Proxy
-Version: 1.3.0
+Version: 1.4.2
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -104,8 +104,9 @@ public function plugins_loaded()
         dirname(plugin_basename(__FILE__)).'/languages'
     );
 
-    if ( version_compare($this->version, $this->db_version) )
+    if (version_compare($this->version, $this->db_version)) {
         $this->db_version = $this->alter_table($this->version, $this->db_version);
+    }
 }
 
 public function add()
@@ -129,9 +130,8 @@ public function transientExec($callback)
     if (!$this->is_enable_flush()) {
         return;
     }
-
     if (get_transient("nginxchampuru_flush")) {
-        return;
+        wp_die('Now romoving cache. Please try after.');
     } else {
         set_transient("nginxchampuru_flush", 1, $this->transient_timeout);
     }
@@ -205,7 +205,6 @@ private function flush_cache()
     }
 
     $keys = $wpdb->get_results($sql);
-    $urls = array();
     $purge_keys = array();
     foreach ($keys as $key) {
         $url = $key->cache_url;
@@ -221,7 +220,11 @@ private function flush_cache()
         $purge_keys[] = $key->cache_key;
     }
 
-    $sql = "delete from `$this->table` where cache_key in ('".join("','", $purge_keys)."')";
+    if ($mode === 'all') {
+        $sql = "delete from `$this->table`";
+    } else {
+        $sql = "delete from `$this->table` where cache_key in ('".join("','", $purge_keys)."')";
+    }
     $wpdb->query($sql);
 }
 
@@ -245,6 +248,20 @@ public function activation()
         dbDelta($sql);
 	    update_option(self::OPTION_NAME_DB_VERSION, $this->version);
     }
+
+    $this->add_caps();
+}
+
+private function add_caps()
+{
+    $role = get_role('administrator');
+    $role->add_cap('flush_cache_single');
+    $role->add_cap('flush_cache_all');
+    $role = get_role('editor');
+    $role->add_cap('flush_cache_single');
+    $role->add_cap('flush_cache_all');
+    $role = get_role('author');
+    $role->add_cap('flush_cache_single');
 }
 
 private function alter_table($version, $db_version)
@@ -268,6 +285,8 @@ private function alter_table($version, $db_version)
             $wpdb->query($sql);
             $sql = "update `{$this->table}` set `cache_saved` = current_timestamp";
             $wpdb->query($sql);
+        case (version_compare('1.4.2', $db_version) > 0):
+            $this->add_caps();
         default:
             update_option(self::OPTION_NAME_DB_VERSION, $version);
             break;
