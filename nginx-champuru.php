@@ -254,14 +254,25 @@ public function activation()
 
 private function add_caps()
 {
+    if (!function_exists('get_role'))
+        return;
+
     $role = get_role('administrator');
-    $role->add_cap('flush_cache_single');
-    $role->add_cap('flush_cache_all');
+    if ($role && !is_wp_error($role)) {
+        $role->add_cap('flush_cache_single');
+        $role->add_cap('flush_cache_all');
+    }
+
     $role = get_role('editor');
-    $role->add_cap('flush_cache_single');
-    $role->add_cap('flush_cache_all');
+    if ($role && !is_wp_error($role)) {
+        $role->add_cap('flush_cache_single');
+        $role->add_cap('flush_cache_all');
+    }
+
     $role = get_role('author');
-    $role->add_cap('flush_cache_single');
+    if ($role && !is_wp_error($role)) {
+        $role->add_cap('flush_cache_single');
+    }
 }
 
 private function alter_table($version, $db_version)
