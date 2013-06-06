@@ -1,6 +1,7 @@
 <?php
 
 class NginxChampuru_Caching {
+const WP_CRON_EXP = 60;
 
 private $q = "nginx_get_commenter";
 private $last_modified;
@@ -19,14 +20,14 @@ function __construct()
     );
     add_filter("got_rewrite", "__return_true");
     add_filter("pre_comment_user_ip", array(&$this, "pre_comment_user_ip"));
-    add_action(
-        'wp_ajax_'.$this->q,
-        array(&$this, 'wp_ajax_nginx_get_commenter')
-    );
-    add_action(
-        'wp_ajax_nopriv_'.$this->q,
-        array(&$this, 'wp_ajax_nginx_get_commenter')
-    );
+//    add_action(
+//        'wp_ajax_'.$this->q,
+//        array(&$this, 'wp_ajax_nginx_get_commenter')
+//    );
+//    add_action(
+//        'wp_ajax_nopriv_'.$this->q,
+//        array(&$this, 'wp_ajax_nginx_get_commenter')
+//    );
     add_filter("nocache_headers", array(&$this, "nocache_headers"));
     add_action("template_redirect", array(&$this, "template_redirect"), 9999);
     add_filter("nonce_life", array(&$this, "nonce_life"));
@@ -34,8 +35,10 @@ function __construct()
     if (!is_admin()) {
         $this->last_modified = gmdate('D, d M Y H:i:s', time()) . ' GMT';
         add_action('template_redirect', array(&$this, 'send_http_header_last_modified'));
-        add_action('wp_head',  array(&$this, 'last_modified_meta_tag'));
+        add_action('wp_head', array(&$this, 'last_modified_meta_tag'));
     }
+
+	add_action('plugins_loaded', array(&$this, 'wp_cron_caching'));
 }
 
 public function nonce_life($life)
@@ -81,15 +84,32 @@ public function wp()
     }
 }
 
+public function wp_cron_caching() {
+    if (defined('DOING_CRON') && DOING_CRON) {
+	    header('X-Accel-Expires: '.intval(self::WP_CRON_EXP));
+    }
+	header('X-Cached: ' . gmdate('D, d M Y H:i:s', time()) . ' GMT');
+}
+
 public function wp_enqueue_scripts()
 {
+	if (is_user_logged_in())
+		return;
+
     if (is_singular() && comments_open()) {
         wp_enqueue_script('jquery');
+        wp_enqueue_script(
+        	'jquery.cookie',
+        	plugins_url('js/jquery.cookie.min.js', dirname(dirname(__FILE__)) . '/nginx-champuru.php'),
+        	array('jquery'),
+        	'1.3.1',
+        	true);
         add_action(
             "wp_print_footer_scripts",
             array(&$this, "wp_print_footer_scripts_admin_ajax")
         );
-    } else if ($this->is_future_post()) {
+    }
+    if ($this->is_future_post()) {
         wp_enqueue_script('jquery');
         add_action(
             "wp_print_footer_scripts",
@@ -100,30 +120,30 @@ public function wp_enqueue_scripts()
 
 public function wp_print_footer_scripts_admin_ajax()
 {
-    $js =<<<EOL
+	$cookie_hash = COOKIEHASH;
+
+    $js = '
 <script type="text/javascript">
 (function($){
-    $.getJSON("%s", function(json){
-        $('#author').val(json.comment_author);
-        $('#email').val(json.comment_author_email);
-        $('#url').val(json.comment_author_url);
-    });
+    $("#author").val($.cookie("comment_author_%1$s"));
+    $("#email").val($.cookie("comment_author_email_%1$s"));
+    $("#url").val($.cookie("comment_author_url_%1$s"));
 })(jQuery);
 </script>
-EOL;
-    $js = sprintf($js, admin_url("admin-ajax.php?action=".$this->q));
+';
+    $js = sprintf($js, COOKIEHASH);
 
     echo apply_filters('wp_print_footer_scripts_admin_ajax', $js);
 }
 
 public function wp_print_footer_scripts_wp_cron(){
-    $js =<<<EOL
+    $js = '
 <script type="text/javascript">
 (function($){
     $.get("%s");
 })(jQuery);
 </script>
-EOL;
+';
     $js = sprintf($js, site_url('wp-cron.php'));
     echo apply_filters('wp_print_footer_scripts_wp_cron', $js);
 }
