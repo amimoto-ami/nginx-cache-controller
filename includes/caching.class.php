@@ -111,7 +111,9 @@ public function wp_print_footer_scripts_admin_ajax()
 })(jQuery);
 </script>
 EOL;
-    printf($js, admin_url("admin-ajax.php?action=".$this->q));
+    $js = sprintf($js, admin_url("admin-ajax.php?action=".$this->q));
+
+    echo apply_filters('wp_print_footer_scripts_admin_ajax', $js);
 }
 
 public function wp_print_footer_scripts_wp_clon(){
