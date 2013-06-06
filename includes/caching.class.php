@@ -93,7 +93,7 @@ public function wp_enqueue_scripts()
         wp_enqueue_script('jquery');
         add_action(
             "wp_print_footer_scripts",
-            array(&$this, "wp_print_footer_scripts_wp_clon")
+            array(&$this, "wp_print_footer_scripts_wp_cron")
         );
     }
 }
@@ -116,7 +116,7 @@ EOL;
     echo apply_filters('wp_print_footer_scripts_admin_ajax', $js);
 }
 
-public function wp_print_footer_scripts_wp_clon(){
+public function wp_print_footer_scripts_wp_cron(){
     $js =<<<EOL
 <script type="text/javascript">
 (function($){
@@ -124,7 +124,8 @@ public function wp_print_footer_scripts_wp_clon(){
 })(jQuery);
 </script>
 EOL;
-    printf($js, site_url('wp-cron.php'));
+    $js = sprintf($js, site_url('wp-cron.php'));
+    echo apply_filters('wp_print_footer_scripts_wp_cron', $js);
 }
 
 private function add_last_modified() {
