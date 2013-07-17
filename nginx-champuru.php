@@ -114,6 +114,9 @@ public function add()
     if (is_admin()) {
         return;
     }
+	if ($this->get_expire() <= 0) {
+        return;
+	}
     global $wpdb;
     $sql = $wpdb->prepare(
         "replace into `{$this->table}` values(%s, %d, %s, %s, null)",
