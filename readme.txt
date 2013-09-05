@@ -3,8 +3,8 @@ Contributors: miyauchi, wokamoto
 Donate link: http://ninjax.cc/
 Tags: nginx, reverse proxy, cache
 Requires at least: 3.4
-Tested up to: 3.5
-Stable tag: 1.6.0
+Tested up to: 3.6
+Stable tag: 1.6.1
 
 Provides some functions of controlling Nginx proxy server cache.
 
@@ -80,6 +80,9 @@ Setting the key for the reverse cache proxy.
 
 
 == Changelog ==
+
+= 1.6.1 =
+* Bug on SSL fixed
 
 = 1.2.0 =
 * fix large site issues.(timeout when too many urls)
