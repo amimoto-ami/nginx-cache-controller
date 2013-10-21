@@ -278,7 +278,7 @@ private function get_cacheclear_url()
     global $nginxchampuru;
     return admin_url(sprintf(
         "/admin-ajax.php?action=flushcache&redirect_to=%s&nonce=%s",
-        urlencode(esc_url($nginxchampuru->get_the_url())),
+        urlencode($_SERVER['REQUEST_URI']),
         wp_create_nonce("flushcache")
     ));
 }

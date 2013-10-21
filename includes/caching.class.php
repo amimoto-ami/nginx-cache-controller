@@ -48,12 +48,19 @@ public function template_redirect()
 {
     global $nginxchampuru;
     $exp = $nginxchampuru->get_expire();
-    header('X-Accel-Expires: '.intval($exp));
+	$headers = array(
+		'X-Accel-Expires' => intval($exp)
+	);
+	$headers = apply_filters('nginxchampuru_caching_headers', $headers);
+	foreach ($headers as $h => $value) {
+    	header($h.': '.intval($exp));
+	}
 }
 
 public function nocache_headers($h)
 {
     $h["X-Accel-Expires"] = 0;
+	$h = apply_filters('nginxchampuru_nocache_headers', $h);
     return $h;
 }
 
