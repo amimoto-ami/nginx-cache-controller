@@ -134,7 +134,7 @@ public function add()
 
 public function transientExec($callback)
 {
-    if (!$this->is_enable_flush() && !$force === false) {
+    if (!$this->is_enable_flush()) {
         return;
     }
     if (get_transient("nginxchampuru_flush")) {
