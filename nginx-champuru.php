@@ -10,6 +10,10 @@ Domain Path: /languages
 Text Domain: nginxchampuru
 */
 
+if ( defined('WP_CLI') && WP_CLI ) {
+	require_once(dirname(__FILE__)."/includes/wp-cli.php");
+}
+
 $nginxchampuru = new NginxChampuru();
 register_activation_hook (__FILE__, array($nginxchampuru, 'activation'));
 
@@ -130,7 +134,7 @@ public function add()
 
 public function transientExec($callback)
 {
-    if (!$this->is_enable_flush()) {
+    if (!$this->is_enable_flush() && !$force === false) {
         return;
     }
     if (get_transient("nginxchampuru_flush")) {
