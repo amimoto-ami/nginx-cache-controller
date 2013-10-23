@@ -31,13 +31,15 @@ class Nginx_Cache_Controller_Commands extends WP_CLI_Command {
 			$id = url_to_postid($assoc_args['cache']);
 			if ($id) {
         		NginxChampuru_FlushCache::flush_by_post($id);
+                WP_CLI::success( "Proxy caches are flushed on ".$assoc_args['cache'] );
 			} else {
 				WP_CLI::error('Cache url is not found.');
 			}
 		} else {
         	$nginxchampuru->transientExec("flush_cache", 'all', 0);
+            WP_CLI::success( "All proxy caches are flushed." );
+            exit;
 		}
-        WP_CLI::success( "All proxy caches are flushed." );
     }
 
     /**

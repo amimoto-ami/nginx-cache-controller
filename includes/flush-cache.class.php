@@ -23,7 +23,7 @@ public function flush_by_post($id)
     if (in_array($post->post_status, $stat)) {
         global $nginxchampuru;
         $mode = $nginxchampuru->get_flush_method("publish");
-        $this->flush_caches($mode, $id);
+        self::flush_caches($mode, $id);
     }
 }
 
@@ -32,7 +32,7 @@ public function flush_by_comment($cid)
     global $nginxchampuru;
     $com = get_comment($cid);
     $mode = $nginxchampuru->get_flush_method("comment");
-    $this->flush_caches($mode, $com->comment_post_ID);
+    self::flush_caches($mode, $com->comment_post_ID);
 }
 
 public function flush_caches($mode = null, $id = 0)
