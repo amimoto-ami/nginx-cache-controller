@@ -64,6 +64,10 @@ function __construct()
 
 public function is_enable_flush()
 {
+	if ( defined('WP_CLI') && WP_CLI ) {
+		return true;
+	}
+
     return get_option("nginxchampuru-enable_flush", 0);
 }
 
