@@ -4,7 +4,7 @@ Donate link: http://ninjax.cc/
 Tags: nginx, reverse proxy, cache
 Requires at least: 3.4
 Tested up to: 3.7
-Stable tag: 1.7.0
+Stable tag: 1.8.0
 
 Provides some functions of controlling Nginx proxy server cache.
 
@@ -12,23 +12,34 @@ Provides some functions of controlling Nginx proxy server cache.
 
 This plugin provides some functions of controlling Nginx proxy server cache.
 
-= Security
+= Security =
 
 * Making comment authors' information ajaxed to prevent the information from caching.
 * Send no-cache header on password protected posts to prevent the posts from caching.
 * When a scheduled post is published, it will delete the cache through Ajax.
 
-= Controlling cache
+= Controlling cache =
 
 * Sending X-ACCEL-EXPIRES, you can specify the available period of the cache.
 * When you save your post and someone post comments, the cache is deleted automatically.
 * Add a menu on the admin bar to delete the cache.
 
-= Memo
+= Memo =
 
 * Gets comment poster's IP address by HTTP_X_FORWARDED_FOR header.
 * Fixes the issue that the permanent link setting includes index.php.
 * When the cache's expiration period is more than 86400 sec, change the value of wp_verify_nonce() same as the period.
+
+= WP-CLI Support =
+
+Flush all proxy caches.
+`wp nginx flush`
+
+Show list of all proxy caches.
+`wp nginx list`
+
+See help.
+`wp help nginx`
 
 = Translator =
 * English(en) - [JOTAKI Taisuke](https://twitter.com/#!/tekapo)
@@ -80,6 +91,9 @@ Setting the key for the reverse cache proxy.
 
 
 == Changelog ==
+
+= 1.8.0 =
+* Add WP-CLI Support
 
 = 1.7.0 =
 * problem when redirect after clear cache fixed.
