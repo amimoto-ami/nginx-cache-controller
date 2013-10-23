@@ -13,7 +13,7 @@ class Nginx_Cache_Controller_Commands extends WP_CLI_Command {
      *
      * ## OPTIONS
      *
-     * [--url=<url>]
+     * [--cache=<url>]
      * : The name of the person to greet.
      *
      * ## EXAMPLES
@@ -21,7 +21,7 @@ class Nginx_Cache_Controller_Commands extends WP_CLI_Command {
      *     wp nginx flush
      *     wp nginx flush --cache=http://example.com/archives/10
      *
-	 * @synopsis [--cache=<url>]
+     * @synopsis [--cache=<url>]
      * @subcommand flush
      */
     function flush($args, $assoc_args) {
