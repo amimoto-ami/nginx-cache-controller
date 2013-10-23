@@ -53,6 +53,9 @@ class Nginx_Cache_Controller_Commands extends WP_CLI_Command {
      */
     function _list($args, $assoc_args) {
         global $nginxchampuru;
+        $objects = $nginxchampuru->get_cached_objects();
+        var_dump($objects);
+        exit;
 	}
 }
 

@@ -154,6 +154,19 @@ public function transientExec($callback)
     delete_transient("nginxchampuru_flush");
 }
 
+public function get_cached_objects()
+{
+    global $wpdb;
+
+    $expire_limit = date('Y-m-d H:i:s', time() - $this->get_max_expire());
+
+    $sql = $wpdb->prepare("select distinct `cache_id`, ifnull(`cache_url`,\"\") as `cache_url`, `cache_saved` from `$this->table` where `cache_saved` > %s",
+        $expire_limit
+    );
+
+    return $wpdb->get_results($sql);
+}
+
 private function flush_this()
 {
     $params = func_get_args();
