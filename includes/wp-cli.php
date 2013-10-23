@@ -32,8 +32,10 @@ class Nginx_Cache_Controller_Commands extends WP_CLI_Command {
 			if ($id) {
         		NginxChampuru_FlushCache::flush_by_post($id);
                 WP_CLI::success( "Proxy caches are flushed on ".$assoc_args['cache'] );
+                exit;
 			} else {
 				WP_CLI::error('Cache url is not found.');
+                exit;
 			}
 		} else {
         	$nginxchampuru->transientExec("flush_cache", 'all', 0);
