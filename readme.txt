@@ -4,7 +4,7 @@ Donate link: http://ninjax.cc/
 Tags: nginx, reverse proxy, cache
 Requires at least: 3.4
 Tested up to: 3.7
-Stable tag: 1.8.0
+Stable tag: 1.9.0
 
 Provides some functions of controlling Nginx proxy server cache.
 
@@ -91,6 +91,9 @@ Setting the key for the reverse cache proxy.
 
 
 == Changelog ==
+
+= 1.9.0 =
+* Add filter "nginxchampuru_db_cached_url"
 
 = 1.8.0 =
 * Add WP-CLI Support
