@@ -174,6 +174,7 @@ public function admin_menu()
     if ( version_compare( $wp_version, '3.8', '>=' ) ) {
         add_action('admin_enqueue_scripts', array(&$this, 'admin_menu_styles'));
     }
+
     add_action('admin_print_styles-'.$hook, array(&$this, 'admin_styles'));
     add_action('admin_head-'.$hook, array(&$this, 'admin_head'));
 }
@@ -214,20 +215,21 @@ public function admin_styles()
     global $nginxchampuru;
     wp_register_style(
         "nginxchampuru",
-        $nginxchampuru->get_plugin_url().'/admin.css',
+        $nginxchampuru->get_plugin_url().'/css/admin.min.css',
         array(),
-        filemtime($nginxchampuru->get_plugin_dir()."/admin.css")
+        filemtime($nginxchampuru->get_plugin_dir()."/css/admin.min.css")
     );
     wp_enqueue_style("nginxchampuru");
 }
+
 public function admin_menu_styles()
 {
     global $nginxchampuru;
     wp_register_style(
         "nginxchampuru-menu",
-        $nginxchampuru->get_plugin_url().'/menu.css',
+        $nginxchampuru->get_plugin_url().'/css/menu.css',
         array(),
-        filemtime($nginxchampuru->get_plugin_dir()."/menu.css")
+        filemtime($nginxchampuru->get_plugin_dir()."/css/menu.css")
     );
     wp_enqueue_style("nginxchampuru-menu");
 }

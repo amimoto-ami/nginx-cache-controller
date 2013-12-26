@@ -102,12 +102,15 @@ public function wp_enqueue_scripts()
         	plugins_url('js/jquery.cookie.min.js', dirname(dirname(__FILE__)) . '/nginx-champuru.php'),
         	array('jquery'),
         	'1.3.1',
-        	true);
+        	true
+        );
+
         add_action(
             "wp_print_footer_scripts",
             array(&$this, "wp_print_footer_scripts_admin_ajax")
         );
     }
+
     if ($this->is_future_post()) {
         wp_enqueue_script('jquery');
         add_action(

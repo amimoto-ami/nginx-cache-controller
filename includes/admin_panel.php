@@ -1,17 +1,17 @@
 <div id="nginxchampuru-settings">
 
-<div class="title">
-<div id="icon-options-general" class="icon32"><br /></div>
-<h2><?php _e("Cache Settings", "nginxchampuru"); ?> <a href="<?php echo $this->get_cacheclear_url(); ?>" class="add-new-h2"><?php _e("Flush All Caches", "nginxchampuru"); ?></a></h2>
-</div>
-
 <?php if (isset($_GET['message']) && $_GET['message'] === "true"): ?>
 <div id="message" class="updated"><p><?php _e("Saved.", "nginxchampuru"); ?></p></div>
 <?php endif; ?>
 
-<?php if(!is_plugin_active('wpbooster-cdn-client/wpbooster-cdn-client.php')): ?>
-<p style="margin:2em 0;"><a href="<?php _e('http://wpbooster.net/', 'nginxchampuru'); ?>"><img src="<?php echo NGINX_CACHE_CONTROLER_URL; ?>/img/booster.jpg" width="728" height="90" /></a></p>
-<?php endif; ?>
+<div class="title">
+<div id="icon-options-general" class="icon32"><br /></div>
+<h2>Nginx Cache Controller <a href="<?php echo $this->get_cacheclear_url(); ?>" class="add-new-h2"><?php _e("Flush All Caches", "nginxchampuru"); ?></a></h2>
+</div>
+
+<div id="poststuff">
+<div id="post-body" class="metabox-holder columns-2">
+<div id="post-body-content">
 
 <h3><?php _e("Cache Expire", "nginxchampuru"); ?></h3>
 
@@ -104,14 +104,33 @@ if (!is_array($expires)) {
 
 </div><!-- #enable-flush -->
 
-<p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e("Save", "nginxchampuru"); ?>"  /></p>
+<p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="<?php _e("Save Changes", "nginxchampuru"); ?>"  /></p>
 </form>
 
-<div class="widget-container">
-<div class="fb-like-box" data-href="http://www.facebook.com/Ninjax.cc" data-width="1280" data-show-faces="true" data-stream="false" data-header="true"></div>
+
+</div><!-- post-body-content -->
+
+<div id="postbox-container-1" class="postbox-container">
+    <div class="postbox">
+        <div class="title"><h3>Contributors</h3></div>
+        <div class="inside">
+            <ul>
+                <li><a href="http://profiles.wordpress.org/miyauchi">Takayuki Miyauchi</a></li>
+                <li><a href="http://profiles.wordpress.org/wokamoto">Wataru Okamoto</a></li>
+                <li><a href="http://profiles.wordpress.org/gatespace">Kazue Igarashi</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="postbox">
+        <div class="hndle"><h3>High Performance WordPress Cloud</h3></div>
+        <div class="inside">
+            <a href="http://megumi-cloud.com/"><img src="<?php echo NGINX_CACHE_CONTROLER_URL.'/img/amimoto.png'; ?>" alt="Amimoto"></a>
+        </div>
+    </div>
 </div>
 
-<div style="text-align:right;"><a href="http://ninjax.cc/"><img src="<?php echo $nginxchampuru->get_plugin_url(); ?>/img/ninjax.png"></a></div>
+</div><!-- post-body -->
+</div><!-- $poststuff -->
 
 </div><!-- #ninjax-expirescontrol -->
 
@@ -129,11 +148,3 @@ if (!is_array($expires)) {
 })(jQuery);
 </script>
 
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>

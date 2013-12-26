@@ -1,0 +1,82 @@
+#nginxchampuru-settings
+{
+    #post-body-content
+    {
+        margin: 0 10px;
+
+        .form-table
+        {
+            margin-bottom: 2em;
+        }
+
+        .title,
+        h3,
+        h4
+        {
+            margin-left: -10px;
+        }
+
+        h3
+        {
+            font-size: 22px;
+            padding: 5px;
+            border-bottom: 3px solid #dedede;
+            color: #555555;
+        }
+
+        h4
+        {
+            font-size: 18px;
+            color: #555555;
+        }
+
+        input.int
+        {
+            width: 6em;
+            text-align: right;
+        }
+
+        dl
+        {
+           margin: 10px;
+        }
+
+        dt
+        {
+            width: 100px;
+            float: left;
+            margin-bottom: 10px;
+        }
+
+        dd
+        {
+            margin-bottom: 10px;
+        }
+
+        #enable-flush
+        {
+            display: none;
+        }
+    }
+
+    #postbox-container-1
+    {
+        .postbox .inside
+        {
+            padding: 8px 12px;
+        }
+
+        .postbox .inside img
+        {
+            max-width: 100%;
+            display: block;
+            margin: 1em auto;
+        }
+
+        .postbox .inside ul
+        {
+            margin-left: 2em;
+            list-style-type: disc;
+        }
+    }
+}

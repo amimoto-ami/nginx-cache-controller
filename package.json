@@ -1,0 +1,22 @@
+{
+  "name": "nginx-champuru",
+  "title": "Nginx Cache Controller",
+  "author": {
+    "name": "Takayuki Miyauchi (Ninjax Team)",
+    "url": "https://ninjax.cc/"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.1.1",
+    "grunt-contrib-cssmin": "~0.6.0",
+    "grunt-contrib-jshint": "~0.1.1",
+    "grunt-contrib-watch": "~0.2.0",
+    "grunt-contrib-sass": "~0.2.2"
+  },
+  "keywords": [],
+  "license": "GPLv2",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:megumiteam/nginx-cache-controller.git"
+  }
+}

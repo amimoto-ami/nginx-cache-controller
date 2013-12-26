@@ -25,6 +25,7 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+
 #adminmenu .toplevel_page_nginx-champuru div.wp-menu-image:before {
 	font-family: 'nginx' !important;
 	content: "\e600";
