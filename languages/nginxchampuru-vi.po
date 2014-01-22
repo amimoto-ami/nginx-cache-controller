@@ -1,111 +1,113 @@
-# Copyright (C) 2012 
+# Copyright (C) 2010 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ja\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/nginx-champuru\n"
 "POT-Creation-Date: 2014-01-22 06:02:37+00:00\n"
-"PO-Revision-Date: 2012-06-05 10:48+0900\n"
-"Last-Translator: wokamoto <wokamoto1973@gmail.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2014-01-16 21:50+0700\n"
+"Last-Translator: \n"
+"Language-Team: OSS localization blog | http://bizover.net <contact@bizover."
+"net>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
 
 #: includes/admin.class.php:20
 msgid "http://wpbooster.net/"
-msgstr "http://ja.wpbooster.net/"
+msgstr "http://wpbooster.net/"
 
 #: includes/admin.class.php:21
 msgid "Make WordPress Site Load Faster"
-msgstr "WordPressを高速化"
+msgstr "Làm cho WordPress trang web tải nhanh hơn"
 
 #: includes/admin.class.php:146
 msgid "Home"
-msgstr "ホーム"
+msgstr "Trang chủ"
 
 #: includes/admin.class.php:147
 msgid "Archives"
-msgstr "アーカイブ"
+msgstr "Lưu trữ"
 
 #: includes/admin.class.php:148
 msgid "Singular"
-msgstr "単独の投稿記事と固定ページ"
+msgstr "Số ít"
 
 #: includes/admin.class.php:149
 msgid "Other"
-msgstr "その他"
+msgstr "Khác"
 
 #: includes/admin.class.php:153
 msgid "None"
-msgstr "なし"
+msgstr "Không có"
 
 #: includes/admin.class.php:154
 msgid "Flush All Caches."
-msgstr "すべてのキャッシュを削除。"
+msgstr "Xóa tất cả các cache."
 
 #: includes/admin.class.php:155
 msgid ""
 "Flush all caches except the ones of the current page and single post / page."
-msgstr "表示中のページと単独投稿記事と単独固定ページ以外のキャッシュを削除。"
+msgstr "Xóa tất cả cache ngoại trừ những trang hiện thời và bài/trang."
 
 #: includes/admin.class.php:156
 msgid "Flush current page only."
-msgstr "現在のページのキャッシュを削除"
+msgstr "Xóa cache trang hiện tại."
 
 #: includes/admin.class.php:255 includes/admin.class.php:270
 #: includes/admin_panel.php:9
 msgid "Flush All Caches"
-msgstr "すべてのキャッシュを削除"
+msgstr "Xóa tất cả cache"
 
 #: includes/admin.class.php:279
 msgid "Flush This Page Cache"
-msgstr "このページのキャッシュを削除"
+msgstr "Làm sạch bộ nhớ cache trang này"
 
 #: includes/admin_panel.php:4
 msgid "Saved."
-msgstr "保存しました。"
+msgstr "Lưu."
 
 #: includes/admin_panel.php:16
 msgid "Cache Expire"
-msgstr "キャッシュ有効期間"
+msgstr "Bộ nhớ cache hết hạn"
 
 #: includes/admin_panel.php:47
 msgid "Settings for Flush Cache"
-msgstr "キャッシュ削除の設定"
+msgstr "Cài đặt cho tuôn ra bộ nhớ cache"
 
 #: includes/admin_panel.php:51
 msgid "Enable Flush Cache"
-msgstr "キャッシュ削除の有効化"
+msgstr "Bật Xóa cache"
 
 #: includes/admin_panel.php:58
 msgid "Nginx Reverse Proxy Settings"
-msgstr "Nginx リバースプロキシ設定"
+msgstr "Thiết đặt ủy quyền Nginx đảo ngược"
 
 #: includes/admin_panel.php:62
 msgid "Cache Directory"
-msgstr "キャッシュディレクトリ"
+msgstr "Bộ nhớ cache thư mục"
 
 #: includes/admin_panel.php:72
 msgid "Cache Levels"
-msgstr "キャッシュレベル"
+msgstr "Bộ nhớ cache cấp"
 
 #: includes/admin_panel.php:82
 msgid "Auto-Flush Hooks"
-msgstr "自動削除のフック"
+msgstr "Các hook Auto-Flush"
 
 #: includes/admin_panel.php:86
 msgid "On Publish"
-msgstr "投稿公開時"
+msgstr "Ngày xuất bản"
 
 #: includes/admin_panel.php:90
 msgid "On Comment Posted"
-msgstr "コメント投稿時"
+msgstr "Trên bình luận"
 
 #: includes/admin_panel.php:96 includes/admin_panel.php:100
 msgid "Add Last modified"
-msgstr "メタタグ &quot;Last Modified&quot; を追加"
+msgstr "Thêm lần cuối"
 
 #: includes/admin_panel.php:107
 msgid "Save Changes"
@@ -125,14 +127,14 @@ msgstr ""
 #. Description of the plugin/theme
 #, fuzzy
 msgid "Plugin for Nginx Reverse Proxy"
-msgstr "Nginxリバースプロキシを使用するためのプラグイン"
+msgstr "Thiết đặt ủy quyền Nginx đảo ngược"
 
 #. Author of the plugin/theme
 msgid "Ninjax Team (Takayuki Miyauchi)"
 msgstr ""
 
 #~ msgid "Cache Settings"
-#~ msgstr "キャッシュ設定"
+#~ msgstr "Thiết đặt bộ nhớ cache"
 
 #~ msgid "Save"
-#~ msgstr "保存"
+#~ msgstr "Tiết kiệm"

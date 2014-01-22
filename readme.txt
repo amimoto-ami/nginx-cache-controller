@@ -4,7 +4,7 @@ Donate link: http://ninjax.cc/
 Tags: nginx, reverse proxy, cache
 Requires at least: 3.4
 Tested up to: 3.8
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 
 Provides some functions of controlling Nginx proxy server cache.
 
@@ -41,9 +41,10 @@ Show list of all proxy caches.
 See help.
 `wp help nginx`
 
-= Translator =
-* English(en) - [JOTAKI Taisuke](https://twitter.com/#!/tekapo)
-* Japanese(Ja) - [JOTAKI Taisuke](https://twitter.com/#!/tekapo)
+= Languages =
+* English(en) - [JOTAKI Taisuke](http://tekapo.com/)
+* Japanese(Ja) - [JOTAKI Taisuke](http://tekapo.com/)
+* Vietnamese(vi) - [Trong](http://bizover.net/)
 
 = Contributor =
 
@@ -91,6 +92,9 @@ Setting the key for the reverse cache proxy.
 
 
 == Changelog ==
+
+= 2.2.1 =
+* Add language Vietnamese (vi).
 
 = 2.2.0 =
 * Add Grunt.

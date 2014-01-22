@@ -112,6 +112,12 @@ if (!is_array($expires)) {
 
 <div id="postbox-container-1" class="postbox-container">
     <div class="postbox">
+        <div class="hndle"><h3>High Performance WordPress Cloud</h3></div>
+        <div class="inside">
+            <a href="http://megumi-cloud.com/"><img src="<?php echo NGINX_CACHE_CONTROLER_URL.'/img/amimoto.png'; ?>" alt="Amimoto"></a>
+        </div>
+    </div>
+    <div class="postbox">
         <div class="title"><h3>Contributors</h3></div>
         <div class="inside">
             <ul>
@@ -122,9 +128,10 @@ if (!is_array($expires)) {
         </div>
     </div>
     <div class="postbox">
-        <div class="hndle"><h3>High Performance WordPress Cloud</h3></div>
+        <div class="title"><h3>Translators</h3></div>
         <div class="inside">
-            <a href="http://megumi-cloud.com/"><img src="<?php echo NGINX_CACHE_CONTROLER_URL.'/img/amimoto.png'; ?>" alt="Amimoto"></a>
+                <li>(ja) <a href="http://tekapo.com/">Jotaki Taisuke</a></li>
+                <li>(vi) <a href="http://bizover.net/">Trong</a></li>
         </div>
     </div>
 </div>
