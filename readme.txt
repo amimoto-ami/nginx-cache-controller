@@ -49,7 +49,9 @@ See help.
 = Contributor =
 
 * [Ninjax Team](http://ninjax.cc/) 
-* [Takayuki Miyauchi](http://firegoby.theta.ne.jp/)
+* [miyauchi](http://profiles.wordpress.org/miyauchi/)
+* [wokamoto](http://profiles.wordpress.org/wokamoto/)
+* [gatespace](http://profiles.wordpress.org/gatespace/)
 
 == Installation ==
 
