@@ -98,7 +98,7 @@ Setting the key for the reverse cache proxy.
 = 2.3.0 =
 * Bug fix. (Menu doen't shown when DISALLOW_FILE_MODS is enabled.)
 
-https://github.com/megumiteam/nginx-cache-controller/compare/2.2.0...2.3.0
+https://github.com/megumiteam/nginx-cache-controller/compare/2.2.1...2.3.0
 
 = 2.2.1 =
 * Add language Vietnamese (vi).
