@@ -164,7 +164,7 @@ public function admin_menu()
     $hook = add_menu_page(
         "Nginx Cache",
         "Nginx Cache",
-        "update_core",
+        "administrator",
         "nginx-champuru",
         array(&$this, "admin_panel"),
         $icon,
