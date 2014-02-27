@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: http://ninjax.cc/
 Description: Plugin for Nginx Reverse Proxy
-Version: 2.3.0
+Version: 2.4.0
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -127,7 +127,7 @@ public function add()
 	}
     global $wpdb;
     $sql = $wpdb->prepare(
-        "replace into `{$this->table}` values(%s, %d, %s, %s, null)",
+        "replace into `{$this->table}` values(%s, %d, %s, %s, CURRENT_TIMESTAMP)",
         $this->get_cache_key(),
         $this->get_postid(),
         $this->get_post_type(),
