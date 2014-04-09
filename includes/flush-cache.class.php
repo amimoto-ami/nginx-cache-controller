@@ -4,7 +4,7 @@ class NginxChampuru_FlushCache {
 
 function __construct()
 {
-    add_action("template_redirect", array(&$this, "template_redirect"));
+    add_action("template_redirect", array(&$this, "template_redirect"), 0);
     add_action('wp_ajax_flushcache', array(&$this, 'wp_ajax_flushcache'));
     add_action('wp_ajax_flushthis', array(&$this, 'wp_ajax_flushthis'));
     add_action("publish_future_post", array(&$this, "flush_by_post"));

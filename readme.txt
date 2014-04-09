@@ -3,8 +3,8 @@ Contributors: miyauchi, wokamoto
 Donate link: http://ninjax.cc/
 Tags: nginx, reverse proxy, cache
 Requires at least: 3.4
-Tested up to: 3.8
-Stable tag: 2.4.0
+Tested up to: 3.9
+Stable tag: 2.5.0
 
 Provides some functions of controlling Nginx proxy server cache.
 
@@ -94,6 +94,12 @@ Setting the key for the reverse cache proxy.
 
 
 == Changelog ==
+
+= 2.4.0 =
+
+* Up priority in the template_redirect hook
+
+https://github.com/megumiteam/nginx-cache-controller/compare/2.4.0...2.5.0
 
 = 2.4.0 =
 
