@@ -95,7 +95,7 @@ Setting the key for the reverse cache proxy.
 
 == Changelog ==
 
-= 2.4.0 =
+= 2.5.0 =
 
 * Up priority in the template_redirect hook
 
