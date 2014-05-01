@@ -142,7 +142,7 @@ public function transientExec($callback)
         return;
     }
     if (get_transient("nginxchampuru_flush")) {
-        wp_die('Now romoving cache. Please try after.');
+        wp_die('Now removing cache. Please try after.');
     } else {
         set_transient("nginxchampuru_flush", 1, $this->transient_timeout);
     }
