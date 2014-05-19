@@ -6,31 +6,44 @@ const WP_CRON_EXP = 60;
 private $q = "nginx_get_commenter";
 private $last_modified;
 
-function __construct()
+private static $instance;
+
+private function __construct() {}
+
+public static function get_instance()
 {
-    add_action("wp", array(&$this, "wp"));
+    if( !isset( self::$instance ) ) {
+        $c = __CLASS__;
+        self::$instance = new $c();    
+    }
+    return self::$instance;
+}
+
+public function add_hook()
+{
+    add_action("wp", array($this, "wp"));
     add_action(
         'wp_enqueue_scripts',
-        array(&$this, 'wp_enqueue_scripts')
+        array($this, 'wp_enqueue_scripts')
     );
     add_filter(
         "wp_get_current_commenter",
-        array(&$this, "wp_get_current_commenter"),
+        array($this, "wp_get_current_commenter"),
         9999
     );
     add_filter("got_rewrite", "__return_true");
-    add_filter("pre_comment_user_ip", array(&$this, "pre_comment_user_ip"));
-    add_filter("nocache_headers", array(&$this, "nocache_headers"));
-    add_action("template_redirect", array(&$this, "template_redirect"), 9999);
-    add_filter("nonce_life", array(&$this, "nonce_life"));
+    add_filter("pre_comment_user_ip", array($this, "pre_comment_user_ip"));
+    add_filter("nocache_headers", array($this, "nocache_headers"));
+    add_action("template_redirect", array($this, "template_redirect"), 9999);
+    add_filter("nonce_life", array($this, "nonce_life"));
 
     if (!is_admin()) {
         $this->last_modified = gmdate('D, d M Y H:i:s', time()) . ' GMT';
-        add_action('template_redirect', array(&$this, 'send_http_header_last_modified'));
-        add_action('wp_head', array(&$this, 'last_modified_meta_tag'));
+        add_action('template_redirect', array($this, 'send_http_header_last_modified'));
+        add_action('wp_head', array($this, 'last_modified_meta_tag'));
     }
 
-	add_action('plugins_loaded', array(&$this, 'wp_cron_caching'));
+	add_action('plugins_loaded', array($this, 'wp_cron_caching'));
 }
 
 public function nonce_life($life)

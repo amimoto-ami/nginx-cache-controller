@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: http://ninjax.cc/
 Description: Plugin for Nginx Reverse Proxy
-Version: 2.5.0
+Version: 2.5.1
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -14,15 +14,21 @@ if ( defined('WP_CLI') && WP_CLI ) {
 	require_once(dirname(__FILE__)."/includes/wp-cli.php");
 }
 
-$nginxchampuru = new NginxChampuru();
+$nginxchampuru = NginxChampuru::get_instance();
+$nginxchampuru->add_hook();
 register_activation_hook (__FILE__, array($nginxchampuru, 'activation'));
 
 require_once(dirname(__FILE__)."/includes/caching.class.php");
-new NginxChampuru_Caching();
+$nginxchampuru_cache = NginxChampuru_Caching::get_instance();
+$nginxchampuru_cache->add_hook();
+
 require_once(dirname(__FILE__)."/includes/flush-cache.class.php");
-new NginxChampuru_FlushCache();
+$nginxchampuru_flushcache = NginxChampuru_FlushCache::get_instance();
+$nginxchampuru_flushcache->add_hook();
+
 require_once(dirname(__FILE__)."/includes/admin.class.php");
-new NginxChampuru_Admin();
+$nginxchampuru_admin = NginxChampuru_Admin::get_instance();
+$nginxchampuru_admin->add_hook();
 
 
 define("NGINX_CACHE_CONTROLER_URL", plugins_url('', __FILE__));
@@ -48,14 +54,27 @@ private $method =array(
     'comment' => 'single',
 );
 
-function __construct()
+private static $instance;
+
+private function __construct() {}
+
+public static function get_instance()
+{
+    if( !isset( self::$instance ) ) {
+        $c = __CLASS__;
+        self::$instance = new $c();    
+    }
+    return self::$instance;
+}
+
+public function add_hook()
 {
     global $wpdb;
     $this->table = $wpdb->prefix.'nginxchampuru';
     if (defined('NCC_CACHE_DIR') && file_exists(NCC_CACHE_DIR)) {
         $this->cache_dir = NCC_CACHE_DIR;
     }
-    add_action('plugins_loaded',    array(&$this, 'plugins_loaded'));
+    add_action('plugins_loaded',    array($this, 'plugins_loaded'));
 
     $data = get_file_data( __FILE__, array( 'version' => 'Version' ) );
     $this->version = $data['version'];

@@ -2,15 +2,28 @@
 
 class NginxChampuru_FlushCache {
 
-function __construct()
+private static $instance;
+
+private function __construct() {}
+
+public static function get_instance()
 {
-    add_action("template_redirect", array(&$this, "template_redirect"), 0);
-    add_action('wp_ajax_flushcache', array(&$this, 'wp_ajax_flushcache'));
-    add_action('wp_ajax_flushthis', array(&$this, 'wp_ajax_flushthis'));
-    add_action("publish_future_post", array(&$this, "flush_by_post"));
-    add_action("save_post", array(&$this, "flush_by_post"));
-    add_action("comment_post", array(&$this, "flush_by_comment"));
-    add_action("wp_set_comment_status", array(&$this, "flush_by_comment"));
+    if( !isset( self::$instance ) ) {
+        $c = __CLASS__;
+        self::$instance = new $c();    
+    }
+    return self::$instance;
+}
+
+public function add_hook()
+{
+    add_action("template_redirect", array($this, "template_redirect"), 0);
+    add_action('wp_ajax_flushcache', array($this, 'wp_ajax_flushcache'));
+    add_action('wp_ajax_flushthis', array($this, 'wp_ajax_flushthis'));
+    add_action("publish_future_post", array($this, "flush_by_post"));
+    add_action("save_post", array($this, "flush_by_post"));
+    add_action("comment_post", array($this, "flush_by_comment"));
+    add_action("wp_set_comment_status", array($this, "flush_by_comment"));
 }
 
 public function flush_by_post($id)
