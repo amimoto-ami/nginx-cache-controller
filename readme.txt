@@ -95,7 +95,7 @@ Setting the key for the reverse cache proxy.
 
 == Changelog ==
 
-= 2.5.1 =
+= 2.6.0 =
 
 * refactoring
 
