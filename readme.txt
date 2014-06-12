@@ -99,6 +99,8 @@ Setting the key for the reverse cache proxy.
 
 * refactoring
 
+https://github.com/megumiteam/nginx-cache-controller/compare/2.5.0...2.6.0
+
 = 2.5.0 =
 
 * Up priority in the template_redirect hook

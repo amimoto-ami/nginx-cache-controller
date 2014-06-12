@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: http://ninjax.cc/
 Description: Plugin for Nginx Reverse Proxy
-Version: 2.6
+Version: 2.6.0
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -161,7 +161,7 @@ public function transientExec($callback)
         return;
     }
     if (get_transient("nginxchampuru_flush")) {
-        wp_die('Now romoving cache. Please try after.');
+        wp_die('Now removing cache. Please try after.');
     } else {
         set_transient("nginxchampuru_flush", 1, $this->transient_timeout);
     }
