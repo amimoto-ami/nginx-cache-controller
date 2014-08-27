@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: http://ninjax.cc/
 Description: Plugin for Nginx Reverse Proxy
-Version: 2.6.0
+Version: 2.7.0
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -62,7 +62,7 @@ public static function get_instance()
 {
     if( !isset( self::$instance ) ) {
         $c = __CLASS__;
-        self::$instance = new $c();    
+        self::$instance = new $c();
     }
     return self::$instance;
 }
@@ -141,9 +141,12 @@ public function add()
     if (is_admin()) {
         return;
     }
-	if ($this->get_expire() <= 0) {
+    if (!$this->is_enable_flush()) {
         return;
-	}
+    }
+    if ($this->get_expire() <= 0) {
+        return;
+    }
     global $wpdb;
     $sql = $wpdb->prepare(
         "replace into `{$this->table}` values(%s, %d, %s, %s, CURRENT_TIMESTAMP)",
@@ -350,8 +353,13 @@ private function alter_table($version, $db_version)
 
 private function get_max_expire()
 {
+    $max = 0;
+
     $expires = get_option(self::OPTION_NAME_CACHE_EXPIRES);
-    $max = max(array_values($expires));
+    if (is_array($expires) && is_array(array_values($expires))) {
+        $max = max(array_values($expires));
+    }
+
     if (!$max) {
         $max = $this->get_default_expire();
     }
