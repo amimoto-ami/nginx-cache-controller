@@ -124,7 +124,7 @@ public function wp_enqueue_scripts()
         );
     }
 
-    if ($this->is_future_post()) {
+    if ($this->is_future_post() && (!defined('DISABLE_WP_CRON') || !DISABLE_WP_CRON)) {
         wp_enqueue_script('jquery');
         add_action(
             "wp_print_footer_scripts",

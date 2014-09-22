@@ -3,8 +3,8 @@ Contributors: miyauchi, wokamoto
 Donate link: http://ninjax.cc/
 Tags: nginx, reverse proxy, cache
 Requires at least: 3.4
-Tested up to: 3.9
-Stable tag: 2.7.0
+Tested up to: 4.0
+Stable tag: 2.8.0
 
 Provides some functions of controlling Nginx proxy server cache.
 
@@ -94,6 +94,12 @@ Setting the key for the reverse cache proxy.
 
 
 == Changelog ==
+
+= 2.7.0 =
+
+* Don't load wp-cron.php when DISABLE_WP_CRON is defined. 
+
+https://github.com/megumiteam/nginx-cache-controller/compare/2.7.0...2.8.0
 
 = 2.7.0 =
 
