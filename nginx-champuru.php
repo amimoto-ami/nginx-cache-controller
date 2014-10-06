@@ -386,7 +386,7 @@ public function get_post_type()
     } elseif (is_singular()) {
         $type = "is_singular";
     } elseif (is_feed()) {
-        $type = "is_singular";
+        $type = "is_feed";
     } else {
         $type = "other";
     }
