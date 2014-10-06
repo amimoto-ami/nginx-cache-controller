@@ -385,6 +385,8 @@ public function get_post_type()
         $type = "is_archive";
     } elseif (is_singular()) {
         $type = "is_singular";
+    } elseif (is_feed()) {
+        $type = "is_singular";
     } else {
         $type = "other";
     }

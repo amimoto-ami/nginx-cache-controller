@@ -159,6 +159,7 @@ public function admin_menu()
         'is_home'     => __("Home", "nginxchampuru"),
         'is_archive'  => __("Archives", "nginxchampuru"),
         'is_singular' => __("Singular", "nginxchampuru"),
+        'is_feed'     => __("Feed", "nginxchampuru"),
         'other'       => __("Other", "nginxchampuru"),
     );
 
