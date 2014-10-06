@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: https://github.com/megumiteam/nginx-cache-controller
 Description: Plugin for Nginx Reverse Proxy
-Version: 2.8.0
+Version: 2.9.0
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -182,7 +182,7 @@ public function get_cached_objects()
 
     $expire_limit = date('Y-m-d H:i:s', time() - $this->get_max_expire());
 
-    $sql = $wpdb->prepare("select distinct `cache_id`, ifnull(`cache_url`,\"\") as `cache_url`, `cache_saved` from `$this->table` where `cache_saved` > %s",
+    $sql = $wpdb->prepare("select distinct `cache_id`, cache_type as post_type, ifnull(`cache_url`,\"\") as `cache_url`, `cache_saved` from `$this->table` where `cache_saved` > %s",
         $expire_limit
     );
 
@@ -234,7 +234,7 @@ private function flush_cache()
         );
     } elseif ($mode === "single" && intval($id)) {
         $sql = $wpdb->prepare(
-            "select distinct `cache_key`, `cache_id`, `cache_type`, ifnull(`cache_url`,\"\") as `cache_url` from `$this->table` where `cache_id`=%d and cache_saved > %s",
+            "select distinct `cache_key`, `cache_id`, `cache_type`, ifnull(`cache_url`,\"\") as `cache_url` from `$this->table` where (`cache_id`=%d and cache_saved > %s) or (`cache_type`='is_feed')",
             intval($id),
             $expire_limit
         );
@@ -242,7 +242,7 @@ private function flush_cache()
         $sql = $wpdb->prepare(
             "select distinct `cache_key`, `cache_id`, `cache_type`, ifnull(`cache_url`,\"\") as `cache_url` from `$this->table`
                 where `cache_saved`> %s and (cache_id=%d or
-                cache_type in ('is_home', 'is_archive', 'other'))",
+                cache_type in ('is_home', 'is_archive', 'is_feed', 'other'))",
             $expire_limit,
             intval($id)
         );
