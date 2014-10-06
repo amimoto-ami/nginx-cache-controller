@@ -182,7 +182,7 @@ public function get_cached_objects()
 
     $expire_limit = date('Y-m-d H:i:s', time() - $this->get_max_expire());
 
-    $sql = $wpdb->prepare("select distinct `cache_id`, cache_type as post_type, ifnull(`cache_url`,\"\") as `cache_url`, `cache_saved` from `$this->table` where `cache_saved` > %s",
+    $sql = $wpdb->prepare("select distinct `cache_id`, `cache_type` as post_type, ifnull(`cache_url`,\"\") as `cache_url`, `cache_saved` from `$this->table` where `cache_saved` > %s",
         $expire_limit
     );
 
