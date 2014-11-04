@@ -16,8 +16,12 @@ class Nginx_Cache_Controller_Commands extends WP_CLI_Command {
      * [--cache=<url>]
      * : The name of the person to greet.
      *
+     * [--format=<format>]
+     * : Accepted values: csv, json. Default: csv
+     *
      * ## EXAMPLES
      *
+     *     wp nginx list --format=json
      *     wp nginx flush
      *     wp nginx flush --cache=http://example.com/archives/10
      *
@@ -55,8 +59,18 @@ class Nginx_Cache_Controller_Commands extends WP_CLI_Command {
      */
     function _list($args, $assoc_args) {
         global $nginxchampuru;
-        $objects = $nginxchampuru->get_cached_objects();
-        var_dump($objects);
+        $format = strtolower(isset($assoc_args['format']) ? $assoc_args['format'] : 'csv');
+        $items = (array)$nginxchampuru->get_cached_objects();
+        $fields = array( "cache_id", "post_type", "cache_url", "cache_saved");
+
+        switch ($format) {
+            case 'csv':
+            case 'json':
+                \WP_CLI\Utils\format_items( $format, $items, $fields );
+                break;
+            default:
+                WP_CLI::error(sprintf('Invalid format "%s".', $format));
+        }
         exit;
 	}
 }
