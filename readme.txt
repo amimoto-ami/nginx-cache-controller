@@ -36,7 +36,9 @@ Flush all proxy caches.
 `wp nginx flush`
 
 Show list of all proxy caches.
-`wp nginx list`
+`wp nginx list --format=csv`
+
+`wp nginx list --format=json`
 
 See help.
 `wp help nginx`
