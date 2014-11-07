@@ -10,7 +10,7 @@ public static function get_instance()
 {
     if( !isset( self::$instance ) ) {
         $c = __CLASS__;
-        self::$instance = new $c();    
+        self::$instance = new $c();
     }
     return self::$instance;
 }
@@ -42,16 +42,15 @@ public function flush_by_post($id)
 
 public function flush_by_comment($cid)
 {
-    global $nginxchampuru;
     $com = get_comment($cid);
-    $mode = $nginxchampuru->get_flush_method("comment");
+    $mode = NginxChampuru::get_flush_method("comment");
     self::flush_caches($mode, $com->comment_post_ID);
 }
 
 public function flush_caches($mode = null, $id = 0)
 {
     global $nginxchampuru;
-    if (!$nginxchampuru->is_enable_flush()) {
+    if (!NginxChampuru::is_enable_flush()) {
         return;
     }
     if ($mode) {

@@ -1,0 +1,10 @@
+{
+   "repositories": [
+     {
+       "packagist": false
+     }
+   ],
+   "autoload": {
+     "psr-0": {"NginxCC": "lib"}
+   }
+}

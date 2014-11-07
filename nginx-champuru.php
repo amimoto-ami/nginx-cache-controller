@@ -10,29 +10,31 @@ Domain Path: /languages
 Text Domain: nginxchampuru
 */
 
+require dirname(__FILE__).'/vendor/autoload.php';
+
 if ( defined('WP_CLI') && WP_CLI ) {
 	require_once(dirname(__FILE__)."/includes/wp-cli.php");
 }
 
-$nginxchampuru = NginxChampuru::get_instance();
-$nginxchampuru->add_hook();
-register_activation_hook (__FILE__, array($nginxchampuru, 'activation'));
-
-require_once(dirname(__FILE__)."/includes/caching.class.php");
-$nginxchampuru_cache = NginxChampuru_Caching::get_instance();
-$nginxchampuru_cache->add_hook();
-
-require_once(dirname(__FILE__)."/includes/flush-cache.class.php");
-$nginxchampuru_flushcache = NginxChampuru_FlushCache::get_instance();
-$nginxchampuru_flushcache->add_hook();
-
-require_once(dirname(__FILE__)."/includes/admin.class.php");
-$nginxchampuru_admin = NginxChampuru_Admin::get_instance();
-$nginxchampuru_admin->add_hook();
-
-
-define("NGINX_CACHE_CONTROLER_URL", plugins_url('', __FILE__));
-define("NGINX_CACHE_CONTROLER_BASE_NAME", plugin_basename(__FILE__));
+// $nginxchampuru = NginxChampuru::get_instance();
+// $nginxchampuru->add_hook();
+// register_activation_hook (__FILE__, array($nginxchampuru, 'activation'));
+//
+// require_once(dirname(__FILE__)."/includes/caching.class.php");
+// $nginxchampuru_cache = NginxChampuru_Caching::get_instance();
+// $nginxchampuru_cache->add_hook();
+//
+// require_once(dirname(__FILE__)."/includes/flush-cache.class.php");
+// $nginxchampuru_flushcache = NginxChampuru_FlushCache::get_instance();
+// $nginxchampuru_flushcache->add_hook();
+//
+// require_once(dirname(__FILE__)."/includes/admin.class.php");
+// $nginxchampuru_admin = NginxChampuru_Admin::get_instance();
+// $nginxchampuru_admin->add_hook();
+//
+//
+// define("NGINX_CACHE_CONTROLER_URL", plugins_url('', __FILE__));
+// define("NGINX_CACHE_CONTROLER_BASE_NAME", plugin_basename(__FILE__));
 
 class NginxChampuru {
 
