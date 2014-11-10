@@ -13,7 +13,7 @@ Text Domain: nginxchampuru
 require dirname(__FILE__).'/vendor/autoload.php';
 
 if ( defined('WP_CLI') && WP_CLI ) {
-	require_once(dirname(__FILE__)."/includes/wp-cli.php");
+    require_once(dirname(__FILE__)."/includes/wp-cli.php");
 }
 
 // $nginxchampuru = NginxChampuru::get_instance();
@@ -83,24 +83,24 @@ public function add_hook()
     $this->db_version = get_option(self::OPTION_NAME_DB_VERSION, 0);
 }
 
-public function is_enable_flush()
-{
-	if ( defined('WP_CLI') && WP_CLI ) {
-		return true;
-	}
+// public function is_enable_flush()
+// {
+// 	if ( defined('WP_CLI') && WP_CLI ) {
+// 		return true;
+// 	}
+//
+//     return get_option("nginxchampuru-enable_flush", 0);
+// }
 
-    return get_option("nginxchampuru-enable_flush", 0);
-}
+// public function add_last_modified()
+// {
+//     return $this->is_enable_flush() && get_option("nginxchampuru-add_last_modified", 0);
+// }
 
-public function add_last_modified()
-{
-    return $this->is_enable_flush() && get_option("nginxchampuru-add_last_modified", 0);
-}
-
-public function get_cache_levels()
-{
-    return get_option("nginxchampuru-cache_levels", $this->cache_levels);
-}
+// public function get_cache_levels()
+// {
+//     return get_option("nginxchampuru-cache_levels", $this->cache_levels);
+// }
 
 public function get_flush_method($hook)
 {
@@ -431,13 +431,13 @@ public function get_cache_file($keys)
     return $caches;
 }
 
-public function get_cache_dir()
-{
-    return
-        (defined('NCC_CACHE_DIR') && file_exists(NCC_CACHE_DIR))
-        ? NCC_CACHE_DIR
-        : get_option("nginxchampuru-cache_dir", $this->cache_dir);
-}
+// public function get_cache_dir()
+// {
+//     return
+//         (defined('NCC_CACHE_DIR') && file_exists(NCC_CACHE_DIR))
+//         ? NCC_CACHE_DIR
+//         : get_option("nginxchampuru-cache_dir", $this->cache_dir);
+// }
 
 public function get_cache_key($url = null)
 {
