@@ -1,6 +1,7 @@
 <?php
 
 namespace NginxCC;
+use \NginxCC\Conf as Conf;
 
 class Admin {
 

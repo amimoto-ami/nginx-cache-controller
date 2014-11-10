@@ -1,6 +1,7 @@
 <?php
 
 namespace NginxCC;
+use \NginxCC\Conf as Conf;
 
 class Utils {
 
@@ -73,7 +74,7 @@ class Utils {
         if ( ( defined( 'NCC_CACHE_DIR' ) && file_exists( NCC_CACHE_DIR ) ) ) {
             $path = NCC_CACHE_DIR;
         } else {
-            $path = self::get_option( "nginxchampuru-cache_dir", \NginxCC\Conf::cache_dir );
+            $path = self::get_option( "nginxchampuru-cache_dir", Conf::cache_dir );
         }
 
         return $path;
@@ -119,6 +120,6 @@ class Utils {
      */
     public static function get_cache_levels()
     {
-        return self::get_option( "nginxchampuru-cache_levels", \NginxCC\Conf::cache_levels );
+        return self::get_option( "nginxchampuru-cache_levels", Conf::cache_levels );
     }
 }
