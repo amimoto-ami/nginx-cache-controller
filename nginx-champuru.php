@@ -41,20 +41,20 @@ class NginxChampuru {
 private $version;
 private $db_version;
 
-private $table;
-private $expire = 86400;
-private $cache_dir = "/var/cache/nginx";
-private $cache_levels = "1:2";
-private $transient_timeout = 60;
+// private $table;
+// private $expire = 86400;
+// private $cache_dir = "/var/cache/nginx";
+// private $cache_levels = "1:2";
+// private $transient_timeout = 60;
 
 const OPTION_NAME_DB_VERSION = 'nginxchampuru-db_version';
 const OPTION_NAME_CACHE_EXPIRES = 'nginxchampuru-cache_expires';
 
 // hook and flush mode
-private $method =array(
-    'publish' => 'almost',
-    'comment' => 'single',
-);
+// private $method =array(
+//     'publish' => 'almost',
+//     'comment' => 'single',
+// );
 
 private static $instance;
 
@@ -102,28 +102,28 @@ public function add_hook()
 //     return get_option("nginxchampuru-cache_levels", $this->cache_levels);
 // }
 
-public function get_flush_method($hook)
-{
-    return get_option(
-        'nginxchampuru-'.$hook,
-        $this->method[$hook]
-    );
-}
+// public function get_flush_method($hook)
+// {
+//     return get_option(
+//         'nginxchampuru-'.$hook,
+//         $this->method[$hook]
+//     );
+// }
 
-public function get_default_expire()
-{
-    return $this->expire;
-}
+// public function get_default_expire()
+// {
+//     return $this->expire;
+// }
 
-public function get_plugin_url()
-{
-    return plugins_url('', __FILE__);
-}
-
-public function get_plugin_dir()
-{
-    return dirname(__FILE__);
-}
+// public function get_plugin_url()
+// {
+//     return plugins_url('', __FILE__);
+// }
+//
+// public function get_plugin_dir()
+// {
+//     return dirname(__FILE__);
+// }
 
 public function plugins_loaded()
 {
@@ -368,33 +368,33 @@ private function get_max_expire()
     return $max;
 }
 
-public function get_expire()
-{
-    $expires = get_option(self::OPTION_NAME_CACHE_EXPIRES);
-    $par = $this->get_post_type();
-    if (isset($expires[$par]) && strlen($expires[$par])) {
-        return $expires[$par];
-    } else {
-        return $this->get_default_expire();
-    }
-}
+// public function get_expire()
+// {
+//     $expires = get_option(self::OPTION_NAME_CACHE_EXPIRES);
+//     $par = $this->get_post_type();
+//     if (isset($expires[$par]) && strlen($expires[$par])) {
+//         return $expires[$par];
+//     } else {
+//         return $this->get_default_expire();
+//     }
+// }
 
-public function get_post_type()
-{
-    if (is_home()) {
-        $type = "is_home";
-    } elseif (is_archive()) {
-        $type = "is_archive";
-    } elseif (is_singular()) {
-        $type = "is_singular";
-    } elseif (is_feed()) {
-        $type = "is_feed";
-    } else {
-        $type = "other";
-    }
-
-    return $type;
-}
+// public function get_post_type()
+// {
+//     if (is_home()) {
+//         $type = "is_home";
+//     } elseif (is_archive()) {
+//         $type = "is_archive";
+//     } elseif (is_singular()) {
+//         $type = "is_singular";
+//     } elseif (is_feed()) {
+//         $type = "is_feed";
+//     } else {
+//         $type = "other";
+//     }
+//
+//     return $type;
+// }
 
 public function get_cache($key, $url = null)
 {

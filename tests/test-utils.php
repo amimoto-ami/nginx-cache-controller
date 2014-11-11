@@ -81,7 +81,6 @@ class Functions_Test extends WP_UnitTestCase {
         $this->assertTrue( true === Utils::is_enable_add_last_modified() );
     }
 
-
     /**
      * @test
      */
@@ -91,5 +90,43 @@ class Functions_Test extends WP_UnitTestCase {
 
         Utils::update_option( 'nginxchampuru-cache_levels', '2:3' );
         $this->assertEquals( '2:3', Utils::get_cache_levels() );
+    }
+
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function get_flush_method()
+    {
+        $this->assertEquals(
+            'flush_current_page_and_archives_caches',
+            Utils::get_flush_method( 'save_post' )
+        );
+
+        $this->assertEquals(
+            'flush_current_page_and_archives_caches',
+            Utils::get_flush_method( 'publish_future_post' )
+        );
+
+        $this->assertEquals(
+            'flush_current_page_caches',
+            Utils::get_flush_method( 'comment_post' )
+        );
+
+        $this->assertEquals(
+            'flush_current_page_caches',
+            Utils::get_flush_method( 'wp_set_comment_status' )
+        );
+
+        add_filter( 'nginxchampuru_flush_method_save_post', function(){
+            return 'test method';
+        } );
+
+        $this->assertEquals( 'test method', Utils::get_flush_method( 'save_post' ) );
+
+        update_option( 'nginxchampuru-save_post', 'hoge' );
+        $this->assertEquals( 'hoge', Utils::get_flush_method( 'save_post' ) );
     }
 }
