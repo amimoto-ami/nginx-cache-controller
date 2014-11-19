@@ -95,8 +95,6 @@ class Functions_Test extends WP_UnitTestCase {
 
     /**
      * @test
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
      */
     public function get_flush_method()
     {
