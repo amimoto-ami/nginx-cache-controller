@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: https://github.com/megumiteam/nginx-cache-controller
 Description: Plugin for Nginx Reverse Proxy
-Version: 3.0.0
+Version: 3.1.0
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
@@ -368,6 +368,7 @@ private function get_max_expire()
     return $max;
 }
 
+
 // public function get_expire()
 // {
 //     $expires = get_option(self::OPTION_NAME_CACHE_EXPIRES);
@@ -395,6 +396,34 @@ private function get_max_expire()
 //
 //     return $type;
 // }
+
+public function get_expire()
+{
+    $expires = get_option(self::OPTION_NAME_CACHE_EXPIRES);
+    $par = $this->get_post_type();
+    if (isset($expires[$par]) && strlen($expires[$par])) {
+        return $expires[$par];
+    } else {
+        return $this->get_default_expire();
+    }
+}
+
+public function get_post_type()
+{
+    if (is_home()) {
+        $type = "is_home";
+    } elseif (is_archive()) {
+        $type = "is_archive";
+    } elseif (is_singular()) {
+        $type = "is_singular";
+    } elseif (is_feed()) {
+        $type = "is_feed";
+    } else {
+        $type = "other";
+    }
+
+    return apply_filters('nginxchampuru_get_post_type', $type);
+}
 
 public function get_cache($key, $url = null)
 {
@@ -457,11 +486,11 @@ public function get_cache_key($url = null)
 private function get_postid()
 {
     $id = get_the_ID();
-    if (is_singular() && intval($id)) {
-        return $id;
-    } else {
-        return 0;
+    if ( ! (is_singular() && intval($id) ) ) {
+        $id = 0;
     }
+
+    return apply_filters('nginxchampuru_get_post_id', $id);
 }
 
 public function get_the_url()
