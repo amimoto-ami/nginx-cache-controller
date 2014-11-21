@@ -4,48 +4,48 @@ namespace NginxCC\Admin;
 
 class View {
 
-    /**
-     * Protected constructor to prevent creating a new instance of the
-     * *Singleton* via the `new` operator from outside of this class.
-     */
-    protected function __construct()
-    {
+	/**
+	 * Protected constructor to prevent creating a new instance of the
+	 * *Singleton* via the `new` operator from outside of this class.
+	 */
+	protected function __construct()
+	{
 
-    }
-
-
-    /**
-     * Returns the *Singleton* instance of this class.
-     *
-     * @staticvar Singleton $instance The *Singleton* instances of this class.
-     *
-     * @return Singleton The *Singleton* instance.
-     */
-    public static function getInstance()
-    {
-        static $instance = null;
-        if (null === $instance) {
-            $instance = new static();
-        }
-        return $instance;
-    }
+	}
 
 
-    /**
-     * Private clone method to prevent cloning of the instance of the
-     * *Singleton* instance.
-     *
-     * @return void
-     */
-    private function __clone()
-    {
+	/**
+	 * Returns the *Singleton* instance of this class.
+	 *
+	 * @staticvar Singleton $instance The *Singleton* instances of this class.
+	 *
+	 * @return Singleton The *Singleton* instance.
+	 */
+	public static function getInstance()
+	{
+		static $instance = null;
+		if (null === $instance) {
+			$instance = new static();
+		}
+		return $instance;
+	}
 
-    }
+
+	/**
+	 * Private clone method to prevent cloning of the instance of the
+	 * *Singleton* instance.
+	 *
+	 * @return void
+	 */
+	private function __clone()
+	{
+
+	}
 
 
-    public static function display()
-    {
-        ?>
+	public static function display()
+	{
+		?>
 <div id="nginxchampuru-settings">
 
 <?php if (isset($_GET['message']) && $_GET['message'] === "true"): ?>
@@ -70,7 +70,7 @@ class View {
 
 $expires = get_option("nginxchampuru-cache_expires");
 if (!is_array($expires)) {
-    $expires = array();
+	$expires = array();
 }
 
 ?>
@@ -78,15 +78,15 @@ if (!is_array($expires)) {
 <table class="form-table">
 <?php foreach ($this->default_cache_params as $par => $title): ?>
 <tr>
-    <?php
-        if (isset($expires[$par]) && strlen($expires[$par])) {
-            $expires[$par] = intval($expires[$par]);
-        } else {
-            $expires[$par] = intval($nginxchampuru->get_default_expire());
-        }
-    ?>
-    <th><?php echo esc_html($title); ?></th>
-    <td><input type="text" class="int" name="expires[<?php echo esc_attr($par); ?>]" value="<?php echo $expires[$par]; ?>" /> sec</td>
+	<?php
+		if (isset($expires[$par]) && strlen($expires[$par])) {
+			$expires[$par] = intval($expires[$par]);
+		} else {
+			$expires[$par] = intval($nginxchampuru->get_default_expire());
+		}
+	?>
+	<th><?php echo esc_html($title); ?></th>
+	<td><input type="text" class="int" name="expires[<?php echo esc_attr($par); ?>]" value="<?php echo $expires[$par]; ?>" /> sec</td>
 </tr>
 <?php endforeach; ?>
 </table>
@@ -96,8 +96,8 @@ if (!is_array($expires)) {
 
 <table class="form-table">
 <tr>
-    <th><?php _e("Enable Flush Cache", "nginxchampuru"); ?></th>
-    <td><?php $this->is_enable_flush(); ?></td>
+	<th><?php _e("Enable Flush Cache", "nginxchampuru"); ?></th>
+	<td><?php $this->is_enable_flush(); ?></td>
 </tr>
 </table>
 
@@ -107,23 +107,23 @@ if (!is_array($expires)) {
 
 <table class="form-table">
 <tr>
-    <th><?php _e("Cache Directory", "nginxchampuru"); ?></th>
-    <td><?php
-        printf(
-            '<input type="text" name="cache_dir" value="%s" %s/>',
-            esc_attr($nginxchampuru->get_cache_dir()) ,
-            (defined('NCC_CACHE_DIR') && file_exists(NCC_CACHE_DIR) ? 'readonly="readonly" ' : '')
-        );
-    ?></td>
+	<th><?php _e("Cache Directory", "nginxchampuru"); ?></th>
+	<td><?php
+		printf(
+			'<input type="text" name="cache_dir" value="%s" %s/>',
+			esc_attr($nginxchampuru->get_cache_dir()) ,
+			(defined('NCC_CACHE_DIR') && file_exists(NCC_CACHE_DIR) ? 'readonly="readonly" ' : '')
+		);
+	?></td>
 </tr>
 <tr>
-    <th><?php _e("Cache Levels", "nginxchampuru"); ?></th>
-    <td><?php
-        printf(
-            '<input type="text" name="cache_levels" value="%s" />',
-            esc_attr($nginxchampuru->get_cache_levels())
-        );
-    ?></td>
+	<th><?php _e("Cache Levels", "nginxchampuru"); ?></th>
+	<td><?php
+		printf(
+			'<input type="text" name="cache_levels" value="%s" />',
+			esc_attr($nginxchampuru->get_cache_levels())
+		);
+	?></td>
 </tr>
 </table>
 
@@ -131,12 +131,12 @@ if (!is_array($expires)) {
 
 <table class="form-table">
 <tr>
-    <th><?php _e("On Publish", "nginxchampuru"); ?></th>
-    <td><?php $this->get_modes_select("publish"); ?></td>
+	<th><?php _e("On Publish", "nginxchampuru"); ?></th>
+	<td><?php $this->get_modes_select("publish"); ?></td>
 </tr>
 <tr>
-    <th><?php _e("On Comment Posted", "nginxchampuru"); ?></th>
-    <td><?php $this->get_modes_select("comment"); ?></td>
+	<th><?php _e("On Comment Posted", "nginxchampuru"); ?></th>
+	<td><?php $this->get_modes_select("comment"); ?></td>
 </tr>
 </table>
 
@@ -145,8 +145,8 @@ if (!is_array($expires)) {
 
 <table class="form-table">
 <tr>
-    <th><?php _e("Add Last modified", "nginxchampuru"); ?></th>
-    <td><?php $this->add_last_modified(); ?></td>
+	<th><?php _e("Add Last modified", "nginxchampuru"); ?></th>
+	<td><?php $this->add_last_modified(); ?></td>
 </tr>
 </table>
 
@@ -159,29 +159,29 @@ if (!is_array($expires)) {
 </div><!-- post-body-content -->
 
 <div id="postbox-container-1" class="postbox-container">
-    <div class="postbox">
-        <div class="hndle"><h3>High Performance WordPress Cloud</h3></div>
-        <div class="inside">
-            <a href="http://megumi-cloud.com/"><img src="<?php echo NGINX_CACHE_CONTROLER_URL.'/img/amimoto.png'; ?>" alt="Amimoto"></a>
-        </div>
-    </div>
-    <div class="postbox">
-        <div class="title"><h3>Contributors</h3></div>
-        <div class="inside">
-            <ul>
-                <li><a href="http://profiles.wordpress.org/miyauchi">Takayuki Miyauchi</a></li>
-                <li><a href="http://profiles.wordpress.org/wokamoto">Wataru Okamoto</a></li>
-                <li><a href="http://profiles.wordpress.org/gatespace">Kazue Igarashi</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="postbox">
-        <div class="title"><h3>Translators</h3></div>
-        <div class="inside">
-                <li>(ja) <a href="http://tekapo.com/">Jotaki Taisuke</a></li>
-                <li>(vi) <a href="http://bizover.net/">Trong</a></li>
-        </div>
-    </div>
+	<div class="postbox">
+		<div class="hndle"><h3>High Performance WordPress Cloud</h3></div>
+		<div class="inside">
+			<a href="http://megumi-cloud.com/"><img src="<?php echo NGINX_CACHE_CONTROLER_URL.'/img/amimoto.png'; ?>" alt="Amimoto"></a>
+		</div>
+	</div>
+	<div class="postbox">
+		<div class="title"><h3>Contributors</h3></div>
+		<div class="inside">
+			<ul>
+				<li><a href="http://profiles.wordpress.org/miyauchi">Takayuki Miyauchi</a></li>
+				<li><a href="http://profiles.wordpress.org/wokamoto">Wataru Okamoto</a></li>
+				<li><a href="http://profiles.wordpress.org/gatespace">Kazue Igarashi</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="postbox">
+		<div class="title"><h3>Translators</h3></div>
+		<div class="inside">
+				<li>(ja) <a href="http://tekapo.com/">Jotaki Taisuke</a></li>
+				<li>(vi) <a href="http://bizover.net/">Trong</a></li>
+		</div>
+	</div>
 </div>
 
 </div><!-- post-body -->
@@ -191,19 +191,19 @@ if (!is_array($expires)) {
 
 <script type="text/javascript">
 (function($){
-    $("#radio-yes").click(function(){
-        $("#enable-flush").fadeIn(50);
-    });
-    $("#radio-no").click(function(){
-        $("#enable-flush").fadeOut(50);
-    });
-    if ($("#radio-yes").prop('checked')) {
-        $("#enable-flush").show();
-    }
+	$("#radio-yes").click(function(){
+		$("#enable-flush").fadeIn(50);
+	});
+	$("#radio-no").click(function(){
+		$("#enable-flush").fadeOut(50);
+	});
+	if ($("#radio-yes").prop('checked')) {
+		$("#enable-flush").show();
+	}
 })(jQuery);
 </script>
-        <?php
-    }
+		<?php
+	}
 
 }
 

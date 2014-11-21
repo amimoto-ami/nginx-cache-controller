@@ -47,8 +47,8 @@ private $db_version;
 // private $cache_levels = "1:2";
 // private $transient_timeout = 60;
 
-const OPTION_NAME_DB_VERSION = 'nginxchampuru-db_version';
-const OPTION_NAME_CACHE_EXPIRES = 'nginxchampuru-cache_expires';
+// const OPTION_NAME_DB_VERSION = 'nginxchampuru-db_version';
+// const OPTION_NAME_CACHE_EXPIRES = 'nginxchampuru-cache_expires';
 
 // hook and flush mode
 // private $method =array(
@@ -276,52 +276,52 @@ private function flush_cache()
     $wpdb->query($sql);
 }
 
-public function activation()
-{
-    global $wpdb;
-    if ($wpdb->get_var("show tables like '$this->table'") != $this->table) {
-        $sql = "CREATE TABLE `{$this->table}` (
-            `cache_key` varchar(32) not null,
-            `cache_id` bigint(20) unsigned default 0 not null,
-            `cache_type` varchar(11) not null,
-            `cache_url` varchar(256),
-            `cache_saved` timestamp default current_timestamp not null,
-            primary key (`cache_key`),
-            key `cache_id` (`cache_id`),
-            key `cache_saved`(`cache_saved`),
-            key `cache_url`(`cache_url`),
-            key `cache_type`(`cache_type`)
-            );";
-        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        dbDelta($sql);
-	    update_option(self::OPTION_NAME_DB_VERSION, $this->version);
-    }
+// public function activation()
+// {
+//     global $wpdb;
+//     if ($wpdb->get_var("show tables like '$this->table'") != $this->table) {
+//         $sql = "CREATE TABLE `{$this->table}` (
+//             `cache_key` varchar(32) not null,
+//             `cache_id` bigint(20) unsigned default 0 not null,
+//             `cache_type` varchar(11) not null,
+//             `cache_url` varchar(256),
+//             `cache_saved` timestamp default current_timestamp not null,
+//             primary key (`cache_key`),
+//             key `cache_id` (`cache_id`),
+//             key `cache_saved`(`cache_saved`),
+//             key `cache_url`(`cache_url`),
+//             key `cache_type`(`cache_type`)
+//             );";
+//         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+//         dbDelta($sql);
+// 	    update_option(self::OPTION_NAME_DB_VERSION, $this->version);
+//     }
+//
+//     $this->add_caps();
+// }
 
-    $this->add_caps();
-}
-
-private function add_caps()
-{
-    if (!function_exists('get_role'))
-        return;
-
-    $role = get_role('administrator');
-    if ($role && !is_wp_error($role)) {
-        $role->add_cap('flush_cache_single');
-        $role->add_cap('flush_cache_all');
-    }
-
-    $role = get_role('editor');
-    if ($role && !is_wp_error($role)) {
-        $role->add_cap('flush_cache_single');
-        $role->add_cap('flush_cache_all');
-    }
-
-    $role = get_role('author');
-    if ($role && !is_wp_error($role)) {
-        $role->add_cap('flush_cache_single');
-    }
-}
+// private function add_caps()
+// {
+//     if ( !function_exists( 'get_role' ) )
+//         return;
+//
+//     $role = get_role( 'administrator' );
+//     if ( $role && !is_wp_error( $role ) ) {
+//         $role->add_cap( 'flush_cache_single' );
+//         $role->add_cap( 'flush_cache_all' );
+//     }
+//
+//     $role = get_role( 'editor' );
+//     if ( $role && !is_wp_error( $role ) ) {
+//         $role->add_cap( 'flush_cache_single' );
+//         $role->add_cap( 'flush_cache_all' );
+//     }
+//
+//     $role = get_role('author');
+//     if ( $role && !is_wp_error( $role ) ) {
+//         $role->add_cap('flush_cache_single');
+//     }
+// }
 
 private function alter_table($version, $db_version)
 {
@@ -336,7 +336,7 @@ private function alter_table($version, $db_version)
             $sql = "ALTER TABLE `{$this->table}` ADD COLUMN `cache_url` varchar(256);";
             $wpdb->query($sql);
         case (version_compare('1.2.1', $db_version) > 0):
-            $sql = "ALTER TABLE `{$this->table}` ADD COLUMN `cache_saved` timestamp default current_timestamp not null;";
+            $sql = "ALTER TABLE `{$this->prefix}` ADD COLUMN `cache_saved` timestamp default current_timestamp not null;";
             $wpdb->query($sql);
             $sql = "ALTER TABLE `{$this->table}` ADD INDEX `cache_saved`(`cache_saved`);";
             $wpdb->query($sql);
@@ -397,33 +397,33 @@ private function get_max_expire()
 //     return $type;
 // }
 
-public function get_expire()
-{
-    $expires = get_option(self::OPTION_NAME_CACHE_EXPIRES);
-    $par = $this->get_post_type();
-    if (isset($expires[$par]) && strlen($expires[$par])) {
-        return $expires[$par];
-    } else {
-        return $this->get_default_expire();
-    }
-}
+// public function get_expire()
+// {
+//     $expires = get_option(self::OPTION_NAME_CACHE_EXPIRES);
+//     $par = $this->get_post_type();
+//     if (isset($expires[$par]) && strlen($expires[$par])) {
+//         return $expires[$par];
+//     } else {
+//         return $this->get_default_expire();
+//     }
+// }
 
-public function get_post_type()
-{
-    if (is_home()) {
-        $type = "is_home";
-    } elseif (is_archive()) {
-        $type = "is_archive";
-    } elseif (is_singular()) {
-        $type = "is_singular";
-    } elseif (is_feed()) {
-        $type = "is_feed";
-    } else {
-        $type = "other";
-    }
-
-    return apply_filters('nginxchampuru_get_post_type', $type);
-}
+// public function get_post_type()
+// {
+//     if (is_home()) {
+//         $type = "is_home";
+//     } elseif (is_archive()) {
+//         $type = "is_archive";
+//     } elseif (is_singular()) {
+//         $type = "is_singular";
+//     } elseif (is_feed()) {
+//         $type = "is_feed";
+//     } else {
+//         $type = "other";
+//     }
+//
+//     return apply_filters('nginxchampuru_get_post_type', $type);
+// }
 
 public function get_cache($key, $url = null)
 {
