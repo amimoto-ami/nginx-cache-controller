@@ -168,7 +168,7 @@ class NginxChampuruCacheListTable extends WP_List_Table {
 
 	public function get_bulk_actions() {
 		$actions = array(
-					'flush_caches' => __( 'Cache Flash', "nginxchampuru" ),
+					'flush_caches' => __( 'Cache Flush', "nginxchampuru" ),
 				);
 		return $actions;
 	}
@@ -207,7 +207,7 @@ class NginxChampuruCacheListTable extends WP_List_Table {
 		$flush_url = add_query_arg( 'cache', $post_id, $flush_url );
 
 		$actions = array (
-				'flush'     => sprintf( '<a href="%s">'.__( 'Cache Flash', "nginxchampuru" ).'</a>', $flush_url )
+				'flush'     => sprintf( '<a href="%s">'.__( 'Cache Flush', "nginxchampuru" ).'</a>', $flush_url )
 			);
 		return sprintf('%1$s %2$s',
 						$item['cache_url'],
