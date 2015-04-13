@@ -30,6 +30,9 @@ require_once(dirname(__FILE__)."/includes/admin.class.php");
 $nginxchampuru_admin = NginxChampuru_Admin::get_instance();
 $nginxchampuru_admin->add_hook();
 
+require_once(dirname(__FILE__)."/includes/cache-list.php");
+$nginxchampuru_cachelist = NginxChampuruCacheList::get_instance();
+$nginxchampuru_cachelist->add_hook();
 
 define("NGINX_CACHE_CONTROLER_URL", plugins_url('', __FILE__));
 define("NGINX_CACHE_CONTROLER_BASE_NAME", plugin_basename(__FILE__));
