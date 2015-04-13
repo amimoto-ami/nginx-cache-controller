@@ -189,7 +189,7 @@ class NginxChampuruCacheListTable extends WP_List_Table {
 					'<input type="checkbox" name="%1$s[]" value="%2$s" />',
 					$this->_args['singular'],
 					$post_id
-        );
+		);
 	}
 	
 	public function column_cache_url( $item ) {
@@ -265,12 +265,12 @@ class NginxChampuruCacheListTable extends WP_List_Table {
 	private function _get_expire($post_type) {
 		global $nginxchampuru;
 
-    	$expires = get_option(NginxChampuru::OPTION_NAME_CACHE_EXPIRES);
-    	
-    	if (isset($expires[$post_type]) && strlen($expires[$post_type])) {
-     	   return $expires[$post_type];
-    	} else {
-    		return $nginxchampuru->get_default_expire();
-    	}
+		$expires = get_option(NginxChampuru::OPTION_NAME_CACHE_EXPIRES);
+
+		if (isset($expires[$post_type]) && strlen($expires[$post_type])) {
+			return $expires[$post_type];
+		} else {
+			return $nginxchampuru->get_default_expire();
+		}
 	}
 }
