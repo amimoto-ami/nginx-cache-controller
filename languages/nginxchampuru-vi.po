@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/nginx-champuru\n"
-"POT-Creation-Date: 2014-01-22 06:02:37+00:00\n"
+"POT-Creation-Date: 2015-04-13 22:01:41+00:00\n"
 "PO-Revision-Date: 2014-01-16 21:50+0700\n"
 "Last-Translator: \n"
 "Language-Team: OSS localization blog | http://bizover.net <contact@bizover."
@@ -15,53 +15,57 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.7\n"
 
-#: includes/admin.class.php:20
+#: includes/admin.class.php:33
 msgid "http://wpbooster.net/"
 msgstr "http://wpbooster.net/"
 
-#: includes/admin.class.php:21
+#: includes/admin.class.php:34
 msgid "Make WordPress Site Load Faster"
 msgstr "Làm cho WordPress trang web tải nhanh hơn"
 
-#: includes/admin.class.php:146
+#: includes/admin.class.php:159
 msgid "Home"
 msgstr "Trang chủ"
 
-#: includes/admin.class.php:147
+#: includes/admin.class.php:160
 msgid "Archives"
 msgstr "Lưu trữ"
 
-#: includes/admin.class.php:148
+#: includes/admin.class.php:161
 msgid "Singular"
 msgstr "Số ít"
 
-#: includes/admin.class.php:149
+#: includes/admin.class.php:162
+msgid "Feed"
+msgstr ""
+
+#: includes/admin.class.php:163
 msgid "Other"
 msgstr "Khác"
 
-#: includes/admin.class.php:153
+#: includes/admin.class.php:167
 msgid "None"
 msgstr "Không có"
 
-#: includes/admin.class.php:154
+#: includes/admin.class.php:168
 msgid "Flush All Caches."
 msgstr "Xóa tất cả các cache."
 
-#: includes/admin.class.php:155
+#: includes/admin.class.php:169
 msgid ""
 "Flush all caches except the ones of the current page and single post / page."
 msgstr "Xóa tất cả cache ngoại trừ những trang hiện thời và bài/trang."
 
-#: includes/admin.class.php:156
+#: includes/admin.class.php:170
 msgid "Flush current page only."
 msgstr "Xóa cache trang hiện tại."
 
-#: includes/admin.class.php:255 includes/admin.class.php:270
+#: includes/admin.class.php:269 includes/admin.class.php:284
 #: includes/admin_panel.php:9
 msgid "Flush All Caches"
 msgstr "Xóa tất cả cache"
 
-#: includes/admin.class.php:279
+#: includes/admin.class.php:293
 msgid "Flush This Page Cache"
 msgstr "Làm sạch bộ nhớ cache trang này"
 
@@ -112,6 +116,43 @@ msgstr "Thêm lần cuối"
 #: includes/admin_panel.php:107
 msgid "Save Changes"
 msgstr ""
+
+#: includes/cache-list.php:24 includes/cache-list.php:55
+#, fuzzy
+msgid "Cache List"
+msgstr "Bộ nhớ cache cấp"
+
+#: includes/cache-list.php:42
+msgid "Per Page"
+msgstr ""
+
+#: includes/cache-list.php:51
+#, fuzzy
+msgid "Flush Cached."
+msgstr "Xóa tất cả các cache."
+
+#: includes/cache-list.php:147
+msgid "No matching caches were found."
+msgstr ""
+
+#: includes/cache-list.php:153
+#, fuzzy
+msgid "Cache URL"
+msgstr "Bộ nhớ cache cấp"
+
+#: includes/cache-list.php:154
+#, fuzzy
+msgid "Cache Expired"
+msgstr "Bộ nhớ cache hết hạn"
+
+#: includes/cache-list.php:155
+msgid "Post Type"
+msgstr ""
+
+#: includes/cache-list.php:171 includes/cache-list.php:210
+#, fuzzy
+msgid "Cache Flush"
+msgstr "Bộ nhớ cache cấp"
 
 #. Plugin Name of the plugin/theme
 msgid "Nginx Cache Controller"
