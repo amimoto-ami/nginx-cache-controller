@@ -1,65 +1,68 @@
-# Copyright (C) 2012 
-# This file is distributed under the same license as the  package.
+# Copyright (C) 2015 Nginx Cache Controller
+# This file is distributed under the same license as the Nginx Cache Controller package.
 msgid ""
 msgstr ""
-"Project-Id-Version: ja\n"
+"Project-Id-Version: Nginx Cache Controller 2.2.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/nginx-champuru\n"
-"POT-Creation-Date: 2014-01-22 06:02:37+00:00\n"
-"PO-Revision-Date: 2012-06-05 10:48+0900\n"
-"Last-Translator: wokamoto <wokamoto1973@gmail.com>\n"
-"Language-Team: \n"
-"Language: \n"
+"POT-Creation-Date: 2015-04-13 22:01:41+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: includes/admin.class.php:20
+#: includes/admin.class.php:33
 msgid "http://wpbooster.net/"
 msgstr "http://ja.wpbooster.net/"
 
-#: includes/admin.class.php:21
+#: includes/admin.class.php:34
 msgid "Make WordPress Site Load Faster"
 msgstr "WordPressを高速化"
 
-#: includes/admin.class.php:146
+#: includes/admin.class.php:159
 msgid "Home"
 msgstr "ホーム"
 
-#: includes/admin.class.php:147
+#: includes/admin.class.php:160
 msgid "Archives"
 msgstr "アーカイブ"
 
-#: includes/admin.class.php:148
+#: includes/admin.class.php:161
 msgid "Singular"
 msgstr "単独の投稿記事と固定ページ"
 
-#: includes/admin.class.php:149
+#: includes/admin.class.php:162
+msgid "Feed"
+msgstr "フィード"
+
+#: includes/admin.class.php:163
 msgid "Other"
 msgstr "その他"
 
-#: includes/admin.class.php:153
+#: includes/admin.class.php:167
 msgid "None"
 msgstr "なし"
 
-#: includes/admin.class.php:154
+#: includes/admin.class.php:168
 msgid "Flush All Caches."
 msgstr "すべてのキャッシュを削除。"
 
-#: includes/admin.class.php:155
+#: includes/admin.class.php:169
 msgid ""
 "Flush all caches except the ones of the current page and single post / page."
 msgstr "表示中のページと単独投稿記事と単独固定ページ以外のキャッシュを削除。"
 
-#: includes/admin.class.php:156
+#: includes/admin.class.php:170
 msgid "Flush current page only."
 msgstr "現在のページのキャッシュを削除"
 
-#: includes/admin.class.php:255 includes/admin.class.php:270
+#: includes/admin.class.php:269 includes/admin.class.php:284
 #: includes/admin_panel.php:9
 msgid "Flush All Caches"
 msgstr "すべてのキャッシュを削除"
 
-#: includes/admin.class.php:279
+#: includes/admin.class.php:293
 msgid "Flush This Page Cache"
 msgstr "このページのキャッシュを削除"
 
@@ -111,6 +114,38 @@ msgstr "メタタグ &quot;Last Modified&quot; を追加"
 msgid "Save Changes"
 msgstr ""
 
+#: includes/cache-list.php:24 includes/cache-list.php:55
+msgid "Cache List"
+msgstr "キャッシュ一覧"
+
+#: includes/cache-list.php:42
+msgid "Per Page"
+msgstr ""
+
+#: includes/cache-list.php:51
+msgid "Flush Cached."
+msgstr "キャッシュは削除されました。"
+
+#: includes/cache-list.php:147
+msgid "No matching caches were found."
+msgstr "キャッシュはありません。"
+
+#: includes/cache-list.php:153
+msgid "Cache URL"
+msgstr ""
+
+#: includes/cache-list.php:154
+msgid "Cache Expired"
+msgstr "有効期間"
+
+#: includes/cache-list.php:155
+msgid "Post Type"
+msgstr "投稿タイプ"
+
+#: includes/cache-list.php:171 includes/cache-list.php:210
+msgid "Cache Flush"
+msgstr "キャッシュ削除"
+
 #. Plugin Name of the plugin/theme
 msgid "Nginx Cache Controller"
 msgstr ""
@@ -123,16 +158,9 @@ msgid "http://ninjax.cc/"
 msgstr ""
 
 #. Description of the plugin/theme
-#, fuzzy
 msgid "Plugin for Nginx Reverse Proxy"
 msgstr "Nginxリバースプロキシを使用するためのプラグイン"
 
 #. Author of the plugin/theme
 msgid "Ninjax Team (Takayuki Miyauchi)"
 msgstr ""
-
-#~ msgid "Cache Settings"
-#~ msgstr "キャッシュ設定"
-
-#~ msgid "Save"
-#~ msgstr "保存"
