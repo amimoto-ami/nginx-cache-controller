@@ -29,7 +29,7 @@ class Nginx_Cache_Controller_Commands extends WP_CLI_Command {
      * @subcommand flush
      */
     function flush($args, $assoc_args) {
-        global $nginxchampuru;
+        $nginxchampuru = NginxChampuru::get_instance();
 
 		if (isset($assoc_args['cache']) && $assoc_args['cache']) {
 			$id = url_to_postid($assoc_args['cache']);
@@ -58,7 +58,7 @@ class Nginx_Cache_Controller_Commands extends WP_CLI_Command {
      * @subcommand list
      */
     function _list($args, $assoc_args) {
-        global $nginxchampuru;
+        $nginxchampuru = NginxChampuru::get_instance();
         $format = strtolower(isset($assoc_args['format']) ? $assoc_args['format'] : 'csv');
         $items = (array)$nginxchampuru->get_cached_objects();
         $fields = array( "cache_id", "post_type", "cache_url", "cache_saved");
