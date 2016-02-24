@@ -4,15 +4,15 @@ Plugin Name: Nginx Cache Controller
 Author: Ninjax Team (Takayuki Miyauchi)
 Plugin URI: https://github.com/megumiteam/nginx-cache-controller
 Description: Plugin for Nginx Reverse Proxy
-Version: 3.1.1
+Version: 3.2.0
 Author URI: http://ninjax.cc/
 Domain Path: /languages
 Text Domain: nginxchampuru
 */
 
-if ( defined('WP_CLI') && WP_CLI ) {
-	require_once(dirname(__FILE__)."/includes/wp-cli.php");
-}
+global $nginxchampuru;
+global $nginxchampuru_flushcache;
+global $nginxchampuru_admin;
 
 $nginxchampuru = NginxChampuru::get_instance();
 $nginxchampuru->add_hook();
@@ -30,6 +30,9 @@ require_once(dirname(__FILE__)."/includes/admin.class.php");
 $nginxchampuru_admin = NginxChampuru_Admin::get_instance();
 $nginxchampuru_admin->add_hook();
 
+if ( defined('WP_CLI') && WP_CLI ) {
+	require_once(dirname(__FILE__)."/includes/wp-cli.php");
+}
 
 define("NGINX_CACHE_CONTROLER_URL", plugins_url('', __FILE__));
 define("NGINX_CACHE_CONTROLER_BASE_NAME", plugin_basename(__FILE__));

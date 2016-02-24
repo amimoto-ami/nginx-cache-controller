@@ -76,4 +76,3 @@ class Nginx_Cache_Controller_Commands extends WP_CLI_Command {
 }
 
 WP_CLI::add_command('nginx', 'Nginx_Cache_Controller_Commands');
-
