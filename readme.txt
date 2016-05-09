@@ -1,5 +1,5 @@
 === Nginx Cache Controller ===
-Contributors: miyauchi, wokamoto
+Contributors: miyauchi, wokamoto, amimotoami
 Donate link: http://ninjax.cc/
 Tags: nginx, reverse proxy, cache
 Requires at least: 3.4
