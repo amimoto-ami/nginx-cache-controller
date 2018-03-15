@@ -48,8 +48,11 @@ public function add_hook()
 
 public function nonce_life($life)
 {
-    $expires = get_option("nginxchampuru-cache_expires", array($life));
-    $max = max(array_values($expires));
+    $expires = get_option(NginxChampuru::OPTION_NAME_CACHE_EXPIRES, array($life));
+    $max =
+        is_array($expires) && is_array(array_values($expires))
+        ? max(array_values($expires))
+        : 0;
     if ($max > $life) {
         return $max;
     } else {
