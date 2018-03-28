@@ -113,13 +113,7 @@ public function wp_enqueue_scripts()
 
     if (is_singular() && comments_open()) {
         wp_enqueue_script('jquery');
-        wp_enqueue_script(
-        	'jquery.cookie',
-        	plugins_url('js/jquery.cookie.min.js', dirname(dirname(__FILE__)) . '/nginx-champuru.php'),
-        	array('jquery'),
-        	'1.3.1',
-        	true
-        );
+        wp_enqueue_script( 'js.cookie', plugins_url('js/js.cookie.js', dirname(dirname(__FILE__)) . '/nginx-champuru.php'), array('jquery'), '2.2.0', true );
 
         add_action(
             "wp_print_footer_scripts",
@@ -141,9 +135,9 @@ public function wp_print_footer_scripts_admin_ajax()
     $js = '
 <script type="text/javascript">
 (function($){
-    $("#author").val($.cookie("comment_author_%1$s"));
-    $("#email").val($.cookie("comment_author_email_%1$s"));
-    $("#url").val($.cookie("comment_author_url_%1$s"));
+    $("#author").val(Cookies.get("comment_author_%1$s"));
+    $("#email").val(Cookies.get("comment_author_email_%1$s"));
+    $("#url").val(Cookies.get("comment_author_url_%1$s"));
 })(jQuery);
 </script>
 ';
