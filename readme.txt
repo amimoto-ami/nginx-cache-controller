@@ -1,10 +1,10 @@
 === Nginx Cache Controller ===
-Contributors: miyauchi, wokamoto, amimotoami
+Contributors: miyauchi, wokamoto, amimotoami, emaildano
 Donate link: http://ninjax.cc/
 Tags: nginx, reverse proxy, cache
 Requires at least: 3.4
-Tested up to: 4.4
-Stable tag: 3.2.0
+Tested up to: 4.9
+Stable tag: 3.3.0
 
 Provides some functions of controlling Nginx proxy server cache.
 
@@ -96,6 +96,10 @@ Setting the key for the reverse cache proxy.
 
 
 == Changelog ==
+
+= 3.2.0 =
+
+* Bug fix for PHP 7.x
 
 = 3.2.0 =
 

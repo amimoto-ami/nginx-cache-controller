@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Nginx Cache Controller
-Author: Ninjax Team (Takayuki Miyauchi)
+Author: Digitalcube
 Plugin URI: https://github.com/megumiteam/nginx-cache-controller
 Description: Plugin for Nginx Reverse Proxy
-Version: 3.2.0
-Author URI: http://ninjax.cc/
+Version: 3.3.0
+Author URI: http://amimoto-ami.com/
 Domain Path: /languages
 Text Domain: nginxchampuru
 */
