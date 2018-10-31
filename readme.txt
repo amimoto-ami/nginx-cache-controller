@@ -4,7 +4,7 @@ Donate link: https://amimoto-ami.com/
 Tags: nginx, reverse proxy, cache
 Requires at least: 3.4
 Tested up to: 4.9.8
-Stable tag: 3.3.1
+Stable tag: 3.3.2
 
 Provides some functions of controlling Nginx proxy server cache.
 

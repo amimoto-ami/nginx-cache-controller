@@ -4,7 +4,7 @@ Plugin Name: Nginx Cache Controller
 Author: Digitalcube
 Plugin URI: https://github.com/megumiteam/nginx-cache-controller
 Description: Plugin for Nginx Reverse Proxy
-Version: 3.3.1
+Version: 3.3.2
 Author URI: https://amimoto-ami.com/
 Domain Path: /languages
 Text Domain: nginxchampuru
