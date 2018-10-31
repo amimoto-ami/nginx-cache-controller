@@ -50,7 +50,7 @@ public function nonce_life($life)
 {
     $expires = get_option(NginxChampuru::OPTION_NAME_CACHE_EXPIRES, array($life));
     $max =
-        is_array($expires) && is_array(array_values($expires))
+        is_array($expires) && !empty($expires) && is_array(array_values($expires))
         ? max(array_values($expires))
         : 0;
     if ($max > $life) {
