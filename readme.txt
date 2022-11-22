@@ -3,8 +3,8 @@ Contributors: miyauchi, wokamoto, amimotoami, emaildano
 Donate link: https://amimoto-ami.com/
 Tags: nginx, reverse proxy, cache
 Requires at least: 3.4
-Tested up to: 4.9.8
-Stable tag: 3.3.2
+Tested up to: 6.1.1
+Stable tag: 3.3.3
 
 Provides some functions of controlling Nginx proxy server cache.
 
@@ -96,6 +96,10 @@ Setting the key for the reverse cache proxy.
 
 
 == Changelog ==
+
+= 3.3.3 =
+
+* Checked in WordPress 6.1.1
 
 = 3.3.1 =
 
