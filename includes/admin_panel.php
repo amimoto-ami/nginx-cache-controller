@@ -114,24 +114,24 @@ if (!is_array($expires)) {
     <div class="postbox">
         <div class="hndle"><h3>High Performance WordPress Cloud</h3></div>
         <div class="inside">
-            <a href="http://megumi-cloud.com/"><img src="<?php echo NGINX_CACHE_CONTROLER_URL.'/img/amimoto.png'; ?>" alt="Amimoto"></a>
+            <a href="https://amimoto-ami.com/"><img src="<?php echo NGINX_CACHE_CONTROLER_URL.'/img/amimoto.png'; ?>" alt="Amimoto"></a>
         </div>
     </div>
     <div class="postbox">
         <div class="title"><h3>Contributors</h3></div>
         <div class="inside">
             <ul>
-                <li><a href="http://profiles.wordpress.org/miyauchi">Takayuki Miyauchi</a></li>
-                <li><a href="http://profiles.wordpress.org/wokamoto">Wataru Okamoto</a></li>
-                <li><a href="http://profiles.wordpress.org/gatespace">Kazue Igarashi</a></li>
+                <li><a href="https://profiles.wordpress.org/miyauchi">Takayuki Miyauchi</a></li>
+                <li><a href="https://profiles.wordpress.org/wokamoto">Wataru Okamoto</a></li>
+                <li><a href="https://profiles.wordpress.org/gatespace">Kazue Igarashi</a></li>
             </ul>
         </div>
     </div>
     <div class="postbox">
         <div class="title"><h3>Translators</h3></div>
         <div class="inside">
-                <li>(ja) <a href="http://tekapo.com/">Jotaki Taisuke</a></li>
-                <li>(vi) <a href="http://bizover.net/">Trong</a></li>
+                <li>(ja) <a href="https://tekapo.com/">Jotaki Taisuke</a></li>
+                <li>(vi) <a href="https://bizover.net/">Trong</a></li>
         </div>
     </div>
 </div>
